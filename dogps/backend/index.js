@@ -1,9 +1,14 @@
 import express from "express";
 import cors from "cors";
+import dogRouter from "./routes/dogRoutes";
 
+// Create app instance
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Routes
+app.use('/dogs', dogRouter);
 
 const dogs = [
     { id: 1, name: "Buddy", breed: "Golden Retriever", age: 3 },
