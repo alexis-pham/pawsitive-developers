@@ -6,6 +6,17 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
 
+  // Prints out dog data to the console
+  const getDogs = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/dogs");
+      const data = await response.json();
+      console.log(data);
+    } catch(error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -17,6 +28,7 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
+      <button onClick={getDogs}>Click here to see the dogs available! (P.S. Check the console)</button>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
