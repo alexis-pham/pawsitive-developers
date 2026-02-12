@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import dogRouter from "./routes/dogRoutes";
+import dogRouter from "./routes/dogRoutes.js";
 
 // Create app instance
 const app = express();
