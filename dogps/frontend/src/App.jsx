@@ -13,7 +13,7 @@ function App() {
   // Prints out dog data to the console
   const getDogs = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/dogs");
+      const response = await fetch("http://localhost:3001/dogs");
       const data = await response.json();
       setDogs(data);
       console.log(data);
