@@ -25,12 +25,14 @@ export async function getAdoptableDogs({ apiKey, start = 0, limit = 24 }) {
         ],
         fields: [
           "animalID",
-          "animalName"
+          "animalName",
+          "animalBreed",
+          "animalGeneralAge"
         ]
       }
     });
 
-    const dogs = response.data;
+    const dogs = response.data.data;
     return dogs;
   } catch (err) {
     console.error("Error fetching adoptable dogs:", err.response?.data || err.message);

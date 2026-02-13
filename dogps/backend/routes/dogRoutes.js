@@ -7,7 +7,7 @@ const API_KEY = process.env.DOG_API_KEY;
 
 router.get('/', async (req, res) => {
     const dogs = await getAdoptableDogs({ apiKey: API_KEY });
-    res.send(dogs);
+    res.status(200).send(dogs);
 })
 
 export default router;

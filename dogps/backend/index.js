@@ -14,9 +14,5 @@ app.get("/api/health", (req, res) => {
     res.json({ ok : true });
 });
 
-app.get("/api/dogs", (req, res) => {
-    res.json(dogs);
-});
-
 const PORT = 3001;
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
