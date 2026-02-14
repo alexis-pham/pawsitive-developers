@@ -53,8 +53,8 @@ function App() {
       <p>{backendStatus}</p>
       <button onClick={getDogs}>Click here to see the dogs available! (P.S. Check the console)</button>
       <div className="dog-grid">
-        {Object.values(dogs).map((dog) => (
-          <DogTile key={dog.animalID} dog={dog} />
+        {dogs.map((dog) => (
+          <DogTile key={dog.external_id} dog={dog} />
         ))}
       </div>
       <div className="card">
