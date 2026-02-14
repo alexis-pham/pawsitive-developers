@@ -40,6 +40,7 @@ npm run dev
 
 
 ## Project Structure
+```bash
 project-root/
 │
 ├── backend/
@@ -54,3 +55,4 @@ project-root/
 │   ├── package.json
 │
 └── README.md
+```
