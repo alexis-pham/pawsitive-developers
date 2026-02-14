@@ -40,3 +40,20 @@
 .read-the-docs {
   color: #888;
 }
+
+.filter-container label {
+  margin-right: 0.5em;
+  font-weight: 500;
+}
+
+.filter-container select {
+  padding: 0.5em 1em;
+  font-size: 1em;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.filter-container select:hover {
+  border-color: #535bf2;
+}
