@@ -13,7 +13,7 @@ function App() {
   // Prints out dog data to the console
   const getDogs = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/dogs");
+      const response = await fetch("http://localhost:3001/dogs");
       const data = await response.json();
       setDogs(data);
       console.log(data);
@@ -53,8 +53,8 @@ function App() {
       <p>{backendStatus}</p>
       <button onClick={getDogs}>Click here to see the dogs available! (P.S. Check the console)</button>
       <div className="dog-grid">
-        {dogs.map((dog) => (
-          <DogTile key={dog.id} dog={dog} />
+        {Object.values(dogs).map((dog) => (
+          <DogTile key={dog.animalID} dog={dog} />
         ))}
       </div>
       <div className="card">
