@@ -29,7 +29,7 @@ router.post('/sync', async (req, res) => {
         const limit = Number(req.body?.limit ?? 24);
 
         const result = await syncDogsFromApi({ apiKey: API_KEY, start, limit });
-        res.json({ ok: true, message: `Synced ${result} dogs from API` });
+        res.json({ ok: true, message: `Fetched ${result.fetched} and synced ${result.upserted} dogs from API` });
     } catch (err) {
         console.error(err);
         res.status(500).json({ ok: false, message: err.message });
@@ -37,4 +37,3 @@ router.post('/sync', async (req, res) => {
 });
 
 export default router;
-
