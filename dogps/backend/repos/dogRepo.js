@@ -4,23 +4,79 @@ import { pool } from "../db.js";
 export async function upsertDogs(dogs) {
     if (!dogs.length) return 0;
 
-    const cols = ["external_id", "name", "breed", "age", "last_seen_at"];
+    const cols = [
+          // Core listing info
+          "animalID",
+          "animalName",
+          "animalStatus",
+          "animalAdoptionFee",
+          "animalPrimaryBreed",
+          "animalSex",
+          "animalGeneralAge",
+          "animalGeneralSizePotential",
+          "animalSizeCurrent",
+          "animalSizeUOM",
+          "animalColor",
+          "animalDescriptionPlain",
+          "animalThumbnailUrl",
+          "animalPictures",
+          "animalUrl",
+          "animalBirthdate",
+
+          // Compatibility / filtering
+          "animalOKWithKids",
+          "animalOKWithDogs",
+          "animalOKWithCats",
+          "animalHousetrained",
+          "animalAltered",
+          "animalActivityLevel",
+          "animalEnergyLevel",
+          "animalLocation",
+
+          // Special needs
+          "animalSpecialneeds",
+          "animalSpecialneedsDescription",
+          "animalNeedsFoster",
+          "animalOKForSeniors",
+          "animalApartment",
+
+          // Personality traits
+          "animalPlayful",
+          "animalAffectionate",
+          "animalGentle",
+          "animalTimid",
+          "animalLap",
+          "animalIntelligent",
+          "animalEagerToPlease",
+          "animalGoofy",
+          "animalIndependent",
+          "animalProtective",
+          "animalSkittish",
+          "animalObedient",
+          "animalFetches",
+          "animalSwims",
+          "animalPlaysToys",
+          "animalGoodInCar",
+          "animalCratetrained",
+          "animalLeashtrained"
+        ];
     
     const values =[];
     const placeholders = dogs.map((d, i) => {
         const base = i * cols.length;
-        values.push(d.external_id, d.name, d.breed, d.age, new Date());
+        values.push(...cols.map(col => d[col]));
         return `(${cols.map((_, j) => `$${base + j + 1}`).join(", ")})`;
     });
 
+    const updateCols = cols.filter(col => col !== "animalID")
+        .map(col => `"${col}" = EXCLUDED."${col}"`)
+        .join(",\n  ");
+
     const query = `
-        INSERT INTO dogs (${cols.join(",")})
+        INSERT INTO dogs (${cols.map( c => `"${c}"`).join(",")})
         VALUES ${placeholders.join(", ")}
-        ON CONFLICT (external_id) DO UPDATE SET
-            name = EXCLUDED.name,
-            breed = EXCLUDED.breed,
-            age = EXCLUDED.age,
-            last_seen_at = EXCLUDED.last_seen_at
+        ON CONFLICT ("animalID") DO UPDATE SET
+            ${updateCols}
     `;
 
     await pool.query(query, values);
