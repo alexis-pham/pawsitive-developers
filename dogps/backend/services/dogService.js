@@ -25,10 +25,60 @@ export async function getAdoptableDogs({ apiKey, start = 0, limit = 24 }) {
           }
         ],
         fields: [
+          // Core listing info
           "animalID",
           "animalName",
-          "animalBreed",
-          "animalGeneralAge"
+          "animalStatus",
+          "animalAdoptionFee",
+          "animalPrimaryBreed",
+          "animalSex",
+          "animalGeneralAge",
+          "animalGeneralSizePotential",
+          "animalSizeCurrent",
+          "animalSizeUOM",
+          "animalColor",
+          "animalDescriptionPlain",
+          "animalThumbnailUrl",
+          "animalPictures",
+          "animalUrl",
+          "animalBirthdate",
+
+          // Compatibility / filtering
+          "animalOKWithKids",
+          "animalOKWithDogs",
+          "animalOKWithCats",
+          "animalHousetrained",
+          "animalAltered",
+          "animalActivityLevel",
+          "animalEnergyLevel",
+          "animalLocation",
+
+          // Special needs
+          "animalSpecialneeds",
+          "animalSpecialneedsDescription",
+          "animalNeedsFoster",
+          "animalOKForSeniors",
+          "animalApartment",
+
+          // Personality traits
+          "animalPlayful",
+          "animalAffectionate",
+          "animalGentle",
+          "animalTimid",
+          "animalLap",
+          "animalIntelligent",
+          "animalEagerToPlease",
+          "animalGoofy",
+          "animalIndependent",
+          "animalProtective",
+          "animalSkittish",
+          "animalObedient",
+          "animalFetches",
+          "animalSwims",
+          "animalPlaysToys",
+          "animalGoodInCar",
+          "animalCratetrained",
+          "animalLeashtrained"
         ]
       }
     });
