@@ -90,8 +90,8 @@ export async function searchDogs({ breed = null, age = null, limit = 24 }) {
         FROM dogs d
         LEFT JOIN dog_status s ON s.dog_id = d.id
         WHERE
-            ($1::text IS NULL or d.breed ILIKE '%' || $1 || '%')
-            AND ($2::text IS NULL or d.age ILIKE '%' || $2 || '%')
+            ($1::text IS NULL or d."animalPrimaryBreed" ILIKE '%' || $1 || '%')
+            AND ($2::text IS NULL or d."animalGeneralAge" ILIKE '%' || $2 || '%')
         ORDER BY d.last_seen_at DESC
         LIMIT $3
     `;

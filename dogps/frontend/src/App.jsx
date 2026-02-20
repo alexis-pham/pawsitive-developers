@@ -73,7 +73,7 @@ function App() {
           <option value="">All Breeds</option>
           <option value="Basset Hound">Basset Hound</option>
           <option value="Black Labrador Retriever / American Staffordshire Terrier / Mixed">Black Labrador Retriever / American Staffordshire Terrier / Mixed</option>
-          <option value="Chihuahua (short coat)">Chihuahua (short coat)</option>
+          <option value="Chihuahua">Chihuahua</option>
           <option value="Dachshund">Dachshund</option>
           <option value="Dachshund / Beagle / Mixed (short coat)">Dachshund / Beagle / Mixed (short coat)</option>
           <option value="German Shepherd Dog / Mixed">German Shepherd Dog / Mixed</option>
@@ -98,10 +98,10 @@ function App() {
 
       <div className="dog-grid">
         {dogs
-          .filter((dog) => !ageFilter || dog.age === ageFilter)
-          .filter((dog) => !breedFilter || dog.breed === breedFilter)
+          .filter((dog) => !ageFilter || dog.animalGeneralAge === ageFilter)
+          .filter((dog) => !breedFilter || dog.animalPrimaryBreed === breedFilter)
           .map((dog) => (
-            <DogTile key={dog.external_id} dog={dog} />
+            <DogTile key={dog.id} dog={dog} />
           ))}
       </div>
       <div className="card">
