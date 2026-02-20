@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+}
+
+h1 {
+    font-size: 64px;
+    color: #1E152A;
+}
+
+p {
+    font-size: 24px;
+    max-width: 815px;
+    word-break: break-word;
+    color: #1E152A;
+}
+
+.orange-text {
+    color: #FE5F00;
+}
