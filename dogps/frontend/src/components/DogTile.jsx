@@ -3,9 +3,10 @@ import './DogTile.css';
 function DogTile({ dog }) {
     return (
         <div className="dog-tile">
-            <h3>{dog.name}</h3>
-            <p>Breed: {dog.breed ? dog.breed : "Unknown"}</p>
-            <p>Age: {dog.age ? dog.age : "Unknown"}</p>
+            <h3>{dog.animalName}</h3>
+            <img src={dog.animalThumbnailUrl} alt="Animal Picture" />
+            <p>Breed: {dog.animalPrimaryBreed ? dog.animalPrimaryBreed : "Unknown"}</p>
+            <p>Age: {dog.animalGeneralAge ? dog.animalGeneralAge : "Unknown"}</p>
         </div>
     )
 }
