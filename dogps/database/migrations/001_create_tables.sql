@@ -1,3 +1,9 @@
+CREATE TABLE IF NOT EXISTS users (
+    id         SERIAL PRIMARY KEY,
+    email      VARCHAR(255) NOT NULL UNIQUE,
+    name       VARCHAR(255)
+);
+
 CREATE TABLE IF NOT EXISTS dogs (
     id                           SERIAL PRIMARY KEY,
     "animalID"                   TEXT UNIQUE NOT NULL,
@@ -52,9 +58,15 @@ CREATE TABLE IF NOT EXISTS dogs (
     updated_at TIMESTAMPTZ   NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS dog_user_favorites (
+    dog_id   INT REFERENCES dogs(id) ON DELETE CASCADE,
+    user_id  INT REFERENCES users(id) ON DELETE CASCADE,
+    PRIMARY KEY (dog_id, user_id)
+);
+
 CREATE TABLE IF NOT EXISTS dog_status (
     dog_id     INT PRIMARY KEY REFERENCES dogs(id) ON DELETE CASCADE,
     adopted    BOOLEAN NOT NULL DEFAULT FALSE,
     adopted_at TIMESTAMPTZ,
     notes      TEXT
-)
+);
