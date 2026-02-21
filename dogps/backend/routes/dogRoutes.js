@@ -37,13 +37,16 @@ router.post('/sync', async (req, res) => {
 });
 
 router.post('/favorites', async (req, res) => {
-    const { userId, dogId } = req.body;
+    const { userEmail, dogId } = req.body;
 
     try {
         await pool.query(
-            `INSERT INTO dog_users_favorites (dog_id, user_id)
-             VALUES ($1, $2)`, [dogId, userId]
-            );
+            `INSERT INTO dog_user_favorites (dog_id, user_id)
+             SELECT $1, id
+             FROM users
+             WHERE email = $2
+             ON CONFLICT DO NOTHING`, [dogId, userEmail]
+        );
         console.info(`Favorite inserted successfully`);
         res.status(200).json({ message: "Success" });
     } catch (err) {

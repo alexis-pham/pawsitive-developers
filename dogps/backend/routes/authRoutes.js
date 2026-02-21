@@ -1,6 +1,7 @@
 import express from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
+import { pool } from '../db.js';
 
 dotenv.config();
 
@@ -27,6 +28,16 @@ router.post('/callback', async (request, response) => {
         });
 
         const payload = ticket.getPayload();
+
+        try {
+            await pool.query(
+                `INSERT INTO users (email, name)
+                VALUES ($1, $2)`, [payload.email, payload.name]
+            );
+            console.info(`User table updated sucessfully`);
+        } catch (err) {
+            console.error("Error creating user", err);
+        }
 
         // Return user info and token
         response.json({
