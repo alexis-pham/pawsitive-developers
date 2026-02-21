@@ -54,4 +54,24 @@ router.post('/favorites', async (req, res) => {
     }
 });
 
+router.get('/favorites', async (req, res) => {
+    const userEmail = req.query.userEmail;
+
+    try {
+        const result = await pool.query(
+        `SELECT d.id, d."animalName", d."animalThumbnailUrl", d."animalPrimaryBreed", d."animalGeneralAge"
+        FROM dogs d
+        JOIN dog_user_favorites f ON f.dog_id = d.id
+        JOIN users u ON u.id = f.user_id
+        WHERE u.email = $1`,
+        [userEmail]
+        );
+
+        const dogs = result.rows;
+        res.status(200).json({ dogs: dogs });
+    } catch(err) {
+        console.error("Error fetching favorites", err);
+    }
+});
+
 export default router;
