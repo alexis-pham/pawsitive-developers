@@ -1,6 +1,5 @@
 import express from "express";
 const router = express.Router();
-import { getAdoptableDogs } from "../services/dogService.js";
 import "dotenv/config"
 import { syncDogsFromApi } from "../services/dogService.js";
 import { searchDogs } from "../repos/dogRepo.js";
