@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FiPlus } from "react-icons/fi";
 import "./DogTile.css";
 import DogPopup from "./DogPopup";
 

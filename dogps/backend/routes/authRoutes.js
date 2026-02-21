@@ -32,7 +32,9 @@ router.post('/callback', async (request, response) => {
         try {
             await pool.query(
                 `INSERT INTO users (email, name)
-                VALUES ($1, $2)`, [payload.email, payload.name]
+                VALUES ($1, $2)
+                ON CONFLICT (email) DO NOTHING`, 
+                [payload.email, payload.name]
             );
             console.info(`User table updated sucessfully`);
         } catch (err) {
