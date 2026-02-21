@@ -3,6 +3,7 @@ const router = express.Router();
 import "dotenv/config"
 import { syncDogsFromApi } from "../services/dogService.js";
 import { searchDogs } from "../repos/dogRepo.js";
+import { pool } from "../db.js";
 
 const API_KEY = process.env.DOG_API_KEY;
 
@@ -32,6 +33,21 @@ router.post('/sync', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ ok: false, message: err.message });
+    }
+});
+
+router.post('/favorites', async (req, res) => {
+    const { userId, dogId } = req.body;
+
+    try {
+        await pool.query(
+            `INSERT INTO dog_users_favorites (dog_id, user_id)
+             VALUES ($1, $2)`, [dogId, userId]
+            );
+        console.info(`Favorite inserted successfully`);
+        res.status(200).json({ message: "Success" });
+    } catch (err) {
+        console.error("Error inserting favorite", err);
     }
 });
 
