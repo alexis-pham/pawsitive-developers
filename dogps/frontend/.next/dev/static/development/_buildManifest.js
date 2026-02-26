@@ -8,6 +8,8 @@ self.__BUILD_MANIFEST = {
     "fallback": []
   },
   "sortedPages": [
+    "/Callback",
+    "/Login",
     "/_app",
     "/_error"
   ]

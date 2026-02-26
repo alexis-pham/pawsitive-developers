@@ -2119,6 +2119,10 @@
     --cell-size: calc(var(--spacing) * 8);
   }
 
+  .running\! {
+    animation-play-state: running !important;
+  }
+
   .group-focus-within\/menu-item\:opacity-100:is(:where(.group\/menu-item):focus-within *) {
     opacity: 1;
   }

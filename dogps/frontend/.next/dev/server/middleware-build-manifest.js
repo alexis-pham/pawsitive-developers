@@ -9,9 +9,9 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/[next]_entry_page-loader_ts_12567703._.js",
       "static/chunks/9ee25_react-dom_ca47b231._.js",
       "static/chunks/9ee25_6596c2b9._.js",
-      "static/chunks/[root-of-the-server]__f09d6662._.js",
-      "static/chunks/Documents_repos_pawsitive-developers_dogps_frontend_pages__app_2da965e7._.js",
-      "static/chunks/358b3_repos_pawsitive-developers_dogps_frontend_pages__app_30d80db5._.js"
+      "static/chunks/[root-of-the-server]__42f76373._.js",
+      "static/chunks/Documents_repos_pawsitive-developers_dogps_frontend_src_pages__app_2da965e7._.js",
+      "static/chunks/358b3_repos_pawsitive-developers_dogps_frontend_src_pages__app_60fc305f._.js"
     ],
     "/_error": [
       "static/chunks/9ee25_next_dist_compiled_24aba224._.js",
@@ -22,9 +22,9 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/[next]_entry_page-loader_ts_1bd0944b._.js",
       "static/chunks/9ee25_react-dom_ca47b231._.js",
       "static/chunks/9ee25_6596c2b9._.js",
-      "static/chunks/[root-of-the-server]__c3fe8a2b._.js",
-      "static/chunks/Documents_repos_pawsitive-developers_dogps_frontend_pages__error_2da965e7._.js",
-      "static/chunks/358b3_repos_pawsitive-developers_dogps_frontend_pages__error_8fd4e4ae._.js"
+      "static/chunks/[root-of-the-server]__dca4a78a._.js",
+      "static/chunks/Documents_repos_pawsitive-developers_dogps_frontend_src_pages__error_2da965e7._.js",
+      "static/chunks/358b3_repos_pawsitive-developers_dogps_frontend_src_pages__error_dace2885._.js"
     ]
   },
   "devFiles": [],

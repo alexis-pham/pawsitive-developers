@@ -7,7 +7,7 @@ __turbopack_load_page_chunks__("/_error", [
   "static/chunks/[next]_entry_page-loader_ts_1bd0944b._.js",
   "static/chunks/9ee25_react-dom_ca47b231._.js",
   "static/chunks/9ee25_6596c2b9._.js",
-  "static/chunks/[root-of-the-server]__c3fe8a2b._.js",
-  "static/chunks/Documents_repos_pawsitive-developers_dogps_frontend_pages__error_2da965e7._.js",
-  "static/chunks/358b3_repos_pawsitive-developers_dogps_frontend_pages__error_8fd4e4ae._.js"
+  "static/chunks/[root-of-the-server]__dca4a78a._.js",
+  "static/chunks/Documents_repos_pawsitive-developers_dogps_frontend_src_pages__error_2da965e7._.js",
+  "static/chunks/358b3_repos_pawsitive-developers_dogps_frontend_src_pages__error_dace2885._.js"
 ])
