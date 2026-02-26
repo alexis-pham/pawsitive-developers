@@ -1,0 +1,188 @@
+/* [project]/Documents/repos/pawsitive-developers/dogps/frontend/components/DogCard.css [app-client] (css) */
+.dog-card {
+  background: #fff;
+  border: 2px solid #00635d40;
+  border-radius: 10px;
+  transition: box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.dog-card:hover {
+  box-shadow: 0 4px 16px #0000001a;
+}
+
+.favorite-btn {
+  z-index: 2;
+  cursor: pointer;
+  color: #4a4a4a;
+  background: #ffffffd9;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  transition: color .2s;
+  display: flex;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.favorite-btn.favorited {
+  color: #fe5f00;
+}
+
+.dog-card-image {
+  aspect-ratio: 1;
+  background: #bfc3ba;
+  width: 100%;
+  overflow: hidden;
+}
+
+.dog-card-image img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: transform .3s;
+}
+
+.dog-card:hover .dog-card-image img {
+  transform: scale(1.05);
+}
+
+.dog-card-info {
+  padding: 12px;
+}
+
+.dog-card-header {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.dog-card-name {
+  color: #1e152a;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.dog-card-gender {
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dog-card-gender.male {
+  color: #fff;
+  background: #fe5f00;
+}
+
+.dog-card-gender.female {
+  color: #1e152a;
+  background: #ffbeef;
+}
+
+.dog-card-breed {
+  color: #4a4a4a;
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+.dog-card-meta {
+  color: #4a4a4a;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  display: flex;
+}
+
+/* [project]/Documents/repos/pawsitive-developers/dogps/frontend/page-components/Favorites.css [app-client] (css) */
+.favorites-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.favorites-title {
+  color: #1e152a;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.favorites-subtitle {
+  color: #4a4a4a;
+  margin: 4px 0 0;
+  font-size: 16px;
+}
+
+.favorites-filters {
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  display: flex;
+}
+
+.filter-label {
+  color: #4a4a4a;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.filter-dropdown {
+  color: #1e152a;
+  cursor: pointer;
+  background: #fff;
+  border: 2px solid #00635d40;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.filter-dropdown:hover {
+  border-color: #00635d;
+}
+
+.favorites-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+  display: grid;
+}
+
+.favorites-empty {
+  text-align: center;
+  padding: 64px 0;
+}
+
+.favorites-empty .empty-title {
+  color: #1e152a;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.favorites-empty .empty-subtitle {
+  color: #4a4a4a;
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .favorites-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .favorites-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*# sourceMappingURL=Documents_repos_pawsitive-developers_dogps_frontend_2b0c7d5c._.css.map*/

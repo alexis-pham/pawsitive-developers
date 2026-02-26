@@ -1,0 +1,53 @@
+/* [project]/Documents/repos/pawsitive-developers/dogps/frontend/components/Navbar.css [app-client] (css) */
+.navbar {
+  box-sizing: border-box;
+  background: #00635d;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  padding: 17px 25px;
+  font-family: inter, sans-serif;
+  font-size: 24px;
+  display: flex;
+  position: relative;
+}
+
+.logo {
+  color: #fff;
+  align-items: center;
+  font-weight: 700;
+  display: flex;
+}
+
+.nav-links {
+  gap: 40px;
+  display: flex;
+}
+
+.nav-links a {
+  color: #bfc3ba;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  color: #fff;
+}
+
+.sign-in {
+  color: #fff;
+  cursor: pointer;
+  background: #fe5f00;
+  border: none;
+  border-radius: 34px;
+  padding: 10px 24px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.sign-in:hover {
+  opacity: .9;
+}
+
+/*# sourceMappingURL=80b94_repos_pawsitive-developers_dogps_frontend_components_Navbar_css_bad6b30c._.single.css.map*/

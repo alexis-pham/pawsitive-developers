@@ -1,0 +1,57 @@
+/* [project]/Documents/repos/pawsitive-developers/dogps/frontend/pages/About.css [app-client] (css) */
+.about-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.about-title {
+  color: #1e152a;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.about-description {
+  color: #4a4a4a;
+  max-width: 640px;
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.values-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+  display: grid;
+}
+
+.value-card {
+  background: #fff;
+  border: 2px solid #00635d40;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.value-title {
+  color: #1e152a;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.value-description {
+  color: #4a4a4a;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*# sourceMappingURL=Documents_repos_pawsitive-developers_dogps_frontend_pages_About_css_bad6b30c._.single.css.map*/

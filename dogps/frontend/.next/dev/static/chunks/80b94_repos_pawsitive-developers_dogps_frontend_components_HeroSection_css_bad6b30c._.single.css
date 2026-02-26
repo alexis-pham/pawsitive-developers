@@ -1,0 +1,135 @@
+/* [project]/Documents/repos/pawsitive-developers/dogps/frontend/components/HeroSection.css [app-client] (css) */
+.hero {
+  background: #f5f0e8;
+  padding: 48px 24px;
+}
+
+.hero-content {
+  align-items: center;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-text h1 {
+  color: #1e152a;
+  margin: 0;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.hero-text h1 .highlight {
+  color: #fe5f00;
+}
+
+.hero-text p {
+  color: #4a4a4a;
+  max-width: 480px;
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.hero-form {
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+  display: flex;
+}
+
+.form-row {
+  gap: 12px;
+  display: flex;
+}
+
+.form-input {
+  color: #1e152a;
+  background: #fff;
+  border: 2px solid #d4cfc5;
+  border-radius: 8px;
+  outline: none;
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.form-input:focus {
+  border-color: #00635d;
+}
+
+.form-input::placeholder {
+  color: #4a4a4a;
+}
+
+.form-select {
+  color: #1e152a;
+  cursor: pointer;
+  background: #fff;
+  border: 2px solid #d4cfc5;
+  border-radius: 8px;
+  outline: none;
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.form-select:focus {
+  border-color: #00635d;
+}
+
+.find-dogs-btn {
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+  background: #fe5f00;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.find-dogs-btn:hover {
+  opacity: .9;
+}
+
+.hero-image {
+  flex-shrink: 0;
+}
+
+.hero-image img {
+  object-fit: cover;
+  border: 4px solid #00635d33;
+  border-radius: 50%;
+  width: 280px;
+  height: 280px;
+  box-shadow: 0 4px 16px #0000001a;
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .hero-text p {
+    max-width: 100%;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .hero-image img {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+/*# sourceMappingURL=80b94_repos_pawsitive-developers_dogps_frontend_components_HeroSection_css_bad6b30c._.single.css.map*/

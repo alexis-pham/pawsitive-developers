@@ -1,0 +1,7 @@
+{
+  "/about-us/page": "app/about-us/page.js",
+  "/favorites/page": "app/favorites/page.js",
+  "/find-a-dog/page": "app/find-a-dog/page.js",
+  "/find-shelters/page": "app/find-shelters/page.js",
+  "/page": "app/page.js"
+}

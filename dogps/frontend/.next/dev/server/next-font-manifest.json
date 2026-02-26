@@ -1,0 +1,22 @@
+{
+  "app": {
+    "[project]/Documents/repos/pawsitive-developers/dogps/frontend/app/about-us/page": [
+      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2"
+    ],
+    "[project]/Documents/repos/pawsitive-developers/dogps/frontend/app/favorites/page": [
+      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2"
+    ],
+    "[project]/Documents/repos/pawsitive-developers/dogps/frontend/app/find-a-dog/page": [
+      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2"
+    ],
+    "[project]/Documents/repos/pawsitive-developers/dogps/frontend/app/find-shelters/page": [
+      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2"
+    ],
+    "[project]/Documents/repos/pawsitive-developers/dogps/frontend/app/page": [
+      "static/media/07454f8ad8aaac57-s.p.fc65572f.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}
