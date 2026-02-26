@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import DogTile from './components/DogTile';
 import SignOutButton from './components/SignOutButton';
 import './App.css'
@@ -9,6 +10,7 @@ function App() {
   const [backendStatus, setBackendStatus] = useState("Backend status unknown, maybe it's not running?");
   const [ageFilter, setAgeFilter] = useState("");
   const [breedFilter, setBreedFilter] = useState("");
+  const navigate = useNavigate();
 
   // Prints out dog data to the console
   const getDogs = async () => {
@@ -42,6 +44,11 @@ function App() {
   return (
     <>
       <SignOutButton/>
+
+      <button onClick={() => navigate('/favorites')}>
+        Favorites
+      </button>
+
       <p>{backendStatus}</p>
       <button onClick={getDogs}>Click here to see the dogs available! (P.S. Check the console)</button>
 

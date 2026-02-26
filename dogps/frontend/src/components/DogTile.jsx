@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FiPlus } from "react-icons/fi";
 import "./DogTile.css";
 import DogPopup from "./DogPopup";
 
@@ -29,6 +28,19 @@ function DogTile({ dog }) {
             className="dog-card-plus"
             onClick={(e) => {
               e.stopPropagation();
+                const user = JSON.parse(localStorage.getItem("user"));
+                const userEmail = user?.email;
+                console.log(userEmail);
+                let dogId = dog.id;
+                console.log(dogId);
+                fetch('http://localhost:3001/dogs/favorites', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({userEmail, dogId}),
+                })
+
             }}
             type="button"
             aria-label={`View ${title}`}

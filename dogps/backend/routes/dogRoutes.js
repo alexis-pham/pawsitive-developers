@@ -3,6 +3,7 @@ const router = express.Router();
 import "dotenv/config"
 import { syncDogsFromApi } from "../services/dogService.js";
 import { searchDogs } from "../repos/dogRepo.js";
+import { pool } from "../db.js";
 
 const API_KEY = process.env.DOG_API_KEY;
 
@@ -32,6 +33,44 @@ router.post('/sync', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ ok: false, message: err.message });
+    }
+});
+
+router.post('/favorites', async (req, res) => {
+    const { userEmail, dogId } = req.body;
+
+    try {
+        await pool.query(
+            `INSERT INTO dog_user_favorites (dog_id, user_id)
+             SELECT $1, id
+             FROM users
+             WHERE email = $2
+             ON CONFLICT DO NOTHING`, [dogId, userEmail]
+        );
+        console.info(`Favorite inserted successfully`);
+        res.status(200).json({ message: "Success" });
+    } catch (err) {
+        console.error("Error inserting favorite", err);
+    }
+});
+
+router.get('/favorites', async (req, res) => {
+    const userEmail = req.query.userEmail;
+
+    try {
+        const result = await pool.query(
+        `SELECT d.id, d."animalName", d."animalThumbnailUrl", d."animalPrimaryBreed", d."animalGeneralAge"
+        FROM dogs d
+        JOIN dog_user_favorites f ON f.dog_id = d.id
+        JOIN users u ON u.id = f.user_id
+        WHERE u.email = $1`,
+        [userEmail]
+        );
+
+        const dogs = result.rows;
+        res.status(200).json({ dogs: dogs });
+    } catch(err) {
+        console.error("Error fetching favorites", err);
     }
 });
 
