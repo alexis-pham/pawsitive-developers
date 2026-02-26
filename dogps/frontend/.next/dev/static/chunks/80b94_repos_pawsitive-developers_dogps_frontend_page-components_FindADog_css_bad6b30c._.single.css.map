@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/Documents/repos/pawsitive-developers/dogps/frontend/page-components/FindADog.css"],"sourcesContent":[".results-section {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 40px 24px;\n}\n\n.results-heading {\n  font-size: 24px;\n  font-weight: 700;\n  color: #1E152A;\n  margin: 0 0 24px;\n}\n\n.results-count {\n  font-size: 16px;\n  font-weight: 400;\n  color: #4a4a4a;\n}\n\n.no-results {\n  text-align: center;\n  padding: 64px 0;\n  color: #4a4a4a;\n}\n\n.dog-grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 24px;\n}\n\n@media (max-width: 900px) {\n  .dog-grid {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n\n@media (max-width: 600px) {\n  .dog-grid {\n    grid-template-columns: 1fr;\n  }\n}\n"],"names":[],"mappings":"AAAA;;;;;;AAMA;;;;;;;AAOA;;;;;;AAMA;;;;;;AAMA;;;;;;AAMA;EACE;;;;;AAKF;EACE"}}]
-}

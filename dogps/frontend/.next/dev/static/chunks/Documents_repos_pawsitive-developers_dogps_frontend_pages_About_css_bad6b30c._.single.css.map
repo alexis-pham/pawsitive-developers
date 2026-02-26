@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/Documents/repos/pawsitive-developers/dogps/frontend/pages/About.css"],"sourcesContent":[".about-page {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 40px 24px;\n}\n\n.about-title {\n  font-size: 30px;\n  font-weight: 700;\n  color: #1E152A;\n  margin: 0;\n}\n\n.about-description {\n  margin-top: 16px;\n  max-width: 640px;\n  line-height: 1.6;\n  color: #4a4a4a;\n  font-size: 16px;\n}\n\n.values-grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 32px;\n  margin-top: 48px;\n}\n\n.value-card {\n  border: 2px solid rgba(0, 99, 93, 0.25);\n  border-radius: 10px;\n  background: #ffffff;\n  padding: 24px;\n}\n\n.value-title {\n  font-size: 18px;\n  font-weight: 700;\n  color: #1E152A;\n  margin: 0;\n}\n\n.value-description {\n  margin-top: 8px;\n  font-size: 14px;\n  line-height: 1.6;\n  color: #4a4a4a;\n}\n\n@media (max-width: 768px) {\n  .values-grid {\n    grid-template-columns: 1fr;\n  }\n}\n"],"names":[],"mappings":"AAAA;;;;;;AAMA;;;;;;;AAOA;;;;;;;;AAQA;;;;;;;AAOA;;;;;;;AAOA;;;;;;;AAOA;;;;;;;AAOA;EACE"}}]
-}
