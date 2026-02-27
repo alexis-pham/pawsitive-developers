@@ -38,7 +38,6 @@ router.post('/sync', async (req, res) => {
 
 router.post('/favorites', async (req, res) => {
     const { userEmail, dogId } = req.body;
-
     try {
         await pool.query(
             `INSERT INTO dog_user_favorites (dog_id, user_id)
@@ -51,6 +50,25 @@ router.post('/favorites', async (req, res) => {
         res.status(200).json({ message: "Success" });
     } catch (err) {
         console.error("Error inserting favorite", err);
+        res.status(500).json({ error: "Failed to insert favorite" });
+    }
+});
+
+router.delete('/favorites', async (req, res) => {
+    const { userEmail, dogId } = req.body;
+
+    try {
+        await pool.query(
+            `DELETE FROM dog_user_favorites
+             WHERE dog_id = $1
+             AND user_id = (SELECT id FROM users WHERE email = $2)`,
+            [dogId, userEmail]
+        );
+        console.info(`Favorite removed successfully`);
+        res.status(200).json({ message: "Success" });
+    } catch (err) {
+        console.error("Error removing favorite", err);
+        res.status(500).json({ error: "Failed to remove favorite" });
     }
 });
 
