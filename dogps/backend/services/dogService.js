@@ -91,6 +91,16 @@ export async function getAdoptableDogs({ apiKey, start = 0, limit = 24 }) {
   }
 }
 
+// Cleans the dog data
+function sanitizeDogData(apiDogs) {
+  const validDogs = apiDogs.filter(dog => {
+    // Invalid dog regex (non letter or spaces (multi word))
+    const regex = /[^a-zA-Z]|\s|MYSTERY|foster|adopt|^.$/i;
+    return !(regex.test(dog["animalName"]) || dog["animalPrimaryBreed"] == (null || "") || dog["animalGeneralAge"] == (null || ""));
+  });
+  return validDogs;
+};
+
 // This function fetches dogs from the API and upserts them into our database
 export async function syncDogsFromApi({ apiKey, start = 0, limit =24 } = {}) {
   if (!apiKey) {
@@ -100,7 +110,10 @@ export async function syncDogsFromApi({ apiKey, start = 0, limit =24 } = {}) {
   const apiDogsObj = await getAdoptableDogs({ apiKey, start, limit });
 
   const apiDogs = Object.values(apiDogsObj);
+  console.log(apiDogs)
+  // Clean the dog data so we drop entries that arent dogs
+  const cleanDogs = sanitizeDogData(apiDogs);
 
-  const upserted = await upsertDogs(apiDogs);
+  const upserted = await upsertDogs(cleanDogs);
   return { fetched: apiDogs.length, upserted };
 }

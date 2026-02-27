@@ -23,6 +23,17 @@ async function runMigrations() {
         }
     }
 
+    const syncDB = async () => {
+        console.log(`Seeding DB with dogs!`);
+        try {
+            await syncDogsFromApi({ apiKey: API_KEY, start: 0, limit: 1000});
+            console.info(`Successfully updated database with new dogs`);
+        } catch (err) {
+            console.error("Error syncing dogs to database:", err);
+        }
+    }
+    syncDB();
+
     console.log("All migrations have been applied.");
     await pool.end();
 }
