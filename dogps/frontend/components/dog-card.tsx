@@ -9,26 +9,29 @@ function DogCard({ dog, isFavorite, onToggleFavorite }: any) {
     <div className="dog-card">
       <button
         className={isFavorite ? "favorite-btn favorited" : "favorite-btn"}
-        onClick={() => onToggleFavorite(dog.id)}
+        onClick={() => onToggleFavorite(dog.animalID)}
       >
         {isFavorite ? "\u2665" : "\u2661"}
       </button>
 
       <div className="dog-card-image">
-        <img src={dog.image} alt={dog.name} />
+        <img src={dog.animalThumbnailUrl} alt={dog.animalName} />
       </div>
 
       <div className="dog-card-info">
         <div className="dog-card-header">
-          <h3 className="dog-card-name">{dog.name}</h3>
-          <span className={dog.gender === "Male" ? "dog-card-gender male" : "dog-card-gender female"}>
-            {dog.gender}
+          <h3 className="dog-card-name">{dog.animalName}</h3>
+          <span className={
+            dog.animalSex === "Male" ? "dog-card-gender male" :
+            dog.animalSex === "Female" ? "dog-card-gender female" :
+             "dog-card-gender unknown"}>
+            {dog.animalSex || "N/A"}
           </span>
         </div>
-        <p className="dog-card-breed">{dog.breed}</p>
+        <p className="dog-card-breed">{dog.animalPrimaryBreed}</p>
         <div className="dog-card-meta">
-          <span>{dog.location}</span>
-          <span>{dog.age}</span>
+          <span>Zip Code: {dog.animalLocation}</span>
+          <span>{dog.animalGeneralAge}</span>
         </div>
       </div>
     </div>

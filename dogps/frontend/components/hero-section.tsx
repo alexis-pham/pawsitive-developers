@@ -1,16 +1,18 @@
 "use client";
 import { useState } from "react";
-import { breeds, ageCategories } from "../lib/dogs-data";
 import "./HeroSection.css";
 
 // onSearch = function that receives { location, breed, age }
-function HeroSection({ onSearch }: any) {
+function HeroSection({ dogs, onSearch }: any) {
   const [location, setLocation] = useState("");
   const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
+  const breeds = [...new Set(dogs.map((d: any) => d.animalPrimaryBreed))].sort();
+  const ageCategories = [...new Set(dogs.map((d: any) => d.animalGeneralAge))].sort();
 
   function handleSubmit(e: any) {
     e.preventDefault();
+    console.log("Searching with", { location, breed, age });
     onSearch({ location, breed, age });
   }
 

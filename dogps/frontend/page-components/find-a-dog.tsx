@@ -1,13 +1,31 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeroSection from "../components/hero-section";
 import DogCard from "../components/dog-card";
-import { dogs } from "../lib/dogs-data";
 import "./FindADog.css";
+
 
 function FindADogPage() {
   // favorites is a list of dog ids like ["1", "3"]
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [dogs, setDogs] = useState<any[]>([]);
+
+
+
+  useEffect(() => {
+      const getDogs = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/dogs");
+        const data = await response.json();
+        setDogs(data);
+        console.log(data);
+      } catch(error) {
+        console.error(error);
+      }
+    };
+    getDogs();
+  }, [])
+
 
   // search filters
   const [filters, setFilters] = useState({ location: "", breed: "", age: "" });
@@ -27,16 +45,18 @@ function FindADogPage() {
   }
 
   // filter dogs based on search
-  const filteredDogs = dogs.filter((dog) => {
-    if (filters.breed && dog.breed !== filters.breed) return false;
-    if (filters.age && dog.ageCategory !== filters.age) return false;
-    if (filters.location && !dog.location.toLowerCase().includes(filters.location.toLowerCase())) return false;
-    return true;
-  });
+ const filteredDogs = dogs.filter((dog) => {
+  console.log( "filters: ", filters);
+  console.log("dog: ", dog);
+  if (filters.breed && dog.animalPrimaryBreed?.toLowerCase() !== filters.breed.toLowerCase()) return false;
+  if (filters.age && dog.animalGeneralAge?.toLowerCase() !== filters.age.toLowerCase()) return false;
+  if (filters.location && !dog.animalLocation?.toLowerCase().includes(filters.location.toLowerCase())) return false;
+  return true;
+});
 
   return (
     <main>
-      <HeroSection onSearch={handleSearch} />
+      <HeroSection dogs={dogs} onSearch={handleSearch} />
 
       <div className="results-section">
         <h2 className="results-heading">
@@ -47,11 +67,12 @@ function FindADogPage() {
           <p className="no-results">No dogs found. Try adjusting your filters.</p>
         ) : (
           <div className="dog-grid">
-            {filteredDogs.map((dog) => (
+            { filteredDogs
+            .map((dog) => (
               <DogCard
-                key={dog.id}
+                key={dog.animalID}
                 dog={dog}
-                isFavorite={favorites.includes(dog.id)}
+                isFavorite={favorites.includes(dog.animalID)}
                 onToggleFavorite={toggleFavorite}
               />
             ))}
