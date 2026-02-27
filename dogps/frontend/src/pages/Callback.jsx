@@ -36,6 +36,7 @@ function Callback() {
     }
   }, [searchParams, navigate]);
 
+  
   return (
     <div>
       <h2>Logging you in...</h2>
