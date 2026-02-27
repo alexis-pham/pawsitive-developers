@@ -96,7 +96,11 @@ function sanitizeDogData(apiDogs) {
   const validDogs = apiDogs.filter(dog => {
     // Invalid dog regex (non letter or spaces (multi word))
     const regex = /[^a-zA-Z]|\s|MYSTERY|foster|adopt|^.$/i;
-    return !(regex.test(dog["animalName"]) || dog["animalPrimaryBreed"] == (null || "") || dog["animalGeneralAge"] == (null || ""));
+    return !(
+       regex.test(dog["animalName"]) 
+    || dog["animalPrimaryBreed"] == (null || "") 
+    || dog["animalGeneralAge"] == (null || "") 
+    || dog["animalLocation"] == (null || ""));
   });
   return validDogs;
 };
