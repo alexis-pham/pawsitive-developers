@@ -4,55 +4,64 @@ import HeroSection from "../components/hero-section";
 import DogCard from "../components/dog-card";
 import "./FindADog.css";
 
-
 function FindADogPage() {
-  // favorites is a list of dog ids like ["1", "3"]
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favorites, setFavorites] = useState<number[]>([]);
   const [dogs, setDogs] = useState<any[]>([]);
-
-
-
-  useEffect(() => {
-      const getDogs = async () => {
-      try {
-        const response = await fetch("http://localhost:3001/dogs");
-        const data = await response.json();
-        setDogs(data);
-        console.log(data);
-      } catch(error) {
-        console.error(error);
-      }
-    };
-    getDogs();
-  }, [])
-
-
-  // search filters
   const [filters, setFilters] = useState({ location: "", breed: "", age: "" });
 
-  // when the user clicks "Find Dogs" in the hero
+  useEffect(() => {
+    const raw = localStorage.getItem("user");
+    if (!raw) return;
+    const user = JSON.parse(raw);
+    const userEmail = user?.email;
+
+    // Fetch dogs first, then favorites
+    fetch("http://localhost:3001/dogs")
+      .then((res) => res.json())
+      .then((dogsData) => {
+        setDogs(dogsData);
+        return fetch(`http://localhost:3001/dogs/favorites?userEmail=${userEmail}`);
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        setFavorites(data.dogs.map((f: any) => f.id));
+      })
+      .catch((err) => console.error("Error loading data:", err));
+  }, []);
+
   function handleSearch(newFilters: any) {
     setFilters(newFilters);
   }
 
-  // add or remove a dog from favorites
-  function toggleFavorite(id: string) {
+  function toggleFavorite(id: number) {
+    const raw = localStorage.getItem("user");
+    if (!raw) return;
+    const user = JSON.parse(raw);
+    const userEmail = user?.email;
+
     if (favorites.includes(id)) {
       setFavorites(favorites.filter((f) => f !== id));
+      fetch("http://localhost:3001/dogs/favorites", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userEmail, dogId: id }),
+      });
     } else {
       setFavorites([...favorites, id]);
+      fetch("http://localhost:3001/dogs/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userEmail, dogId: id }),
+      });
     }
   }
 
-  // filter dogs based on search
- const filteredDogs = dogs.filter((dog) => {
-  console.log( "filters: ", filters);
-  console.log("dog: ", dog);
-  if (filters.breed && dog.animalPrimaryBreed?.toLowerCase() !== filters.breed.toLowerCase()) return false;
-  if (filters.age && dog.animalGeneralAge?.toLowerCase() !== filters.age.toLowerCase()) return false;
-  if (filters.location && !dog.animalLocation?.toLowerCase().includes(filters.location.toLowerCase())) return false;
-  return true;
-});
+  const filteredDogs = dogs.filter((dog) => {
+    if (filters.breed && dog.animalPrimaryBreed?.toLowerCase() !== filters.breed.toLowerCase()) return false;
+    if (filters.age && dog.animalGeneralAge?.toLowerCase() !== filters.age.toLowerCase()) return false;
+    if (filters.location && !dog.animalLocation?.toLowerCase().includes(filters.location.toLowerCase())) return false;
+    return true;
+  });
 
   return (
     <main>
@@ -67,12 +76,11 @@ function FindADogPage() {
           <p className="no-results">No dogs found. Try adjusting your filters.</p>
         ) : (
           <div className="dog-grid">
-            { filteredDogs
-            .map((dog) => (
+            {filteredDogs.map((dog) => (
               <DogCard
                 key={dog.animalID}
                 dog={dog}
-                isFavorite={favorites.includes(dog.animalID)}
+                isFavorite={favorites.includes(dog.id)}
                 onToggleFavorite={toggleFavorite}
               />
             ))}

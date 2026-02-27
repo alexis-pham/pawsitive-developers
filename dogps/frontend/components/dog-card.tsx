@@ -9,8 +9,7 @@ function DogCard({ dog, isFavorite, onToggleFavorite }: any) {
     <div className="dog-card">
       <button
         className={isFavorite ? "favorite-btn favorited" : "favorite-btn"}
-        onClick={() => onToggleFavorite(dog.animalID)}
-      >
+        onClick={() => onToggleFavorite(dog.id)}      >
         {isFavorite ? "\u2665" : "\u2661"}
       </button>
 

@@ -1,34 +1,59 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import DogCard from "../components/dog-card";
-import { dogs, breeds, ageCategories } from "../lib/dogs-data";
 import "./Favorites.css";
 
 function FavoritesPage() {
-  // favorites is a list of dog ids like ["1", "3"]
-  const [favorites, setFavorites] = useState<string[]>([]);
-
-  // filter dropdowns
+  const router = useRouter();
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [dogs, setDogs] = useState<any[]>([]);
   const [breedFilter, setBreedFilter] = useState("");
   const [ageFilter, setAgeFilter] = useState("");
 
-  // add or remove a dog from favorites
-  function toggleFavorite(id: string) {
+  useEffect(() => {
+    const raw = localStorage.getItem("user");
+    if (!raw) {
+      router.push("/");
+      return;
+    }
+    const user = JSON.parse(raw);
+    const userEmail = user?.email;
+
+    fetch(`http://localhost:3001/dogs/favorites?userEmail=${userEmail}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setDogs(data.dogs);
+        setFavorites(data.dogs.map((d: any) => d.id));
+      })
+      .catch((err) => console.error("Error fetching favorites", err));
+  }, []);
+
+  function toggleFavorite(id: number) {
+    const raw = localStorage.getItem("user");
+    if (!raw) return;
+    const user = JSON.parse(raw);
+    const userEmail = user?.email;
+
     if (favorites.includes(id)) {
       setFavorites(favorites.filter((f) => f !== id));
+      setDogs(dogs.filter((d) => d.id !== id));
+      fetch("http://localhost:3001/dogs/favorites", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userEmail, dogId: id }),
+      });
     } else {
       setFavorites([...favorites, id]);
     }
   }
 
-  // get only the dogs that are favorited, then apply filters
+  const breeds = [...new Set(dogs.map((d: any) => d.animalPrimaryBreed).filter(Boolean))].sort();
+  const ageCategories = [...new Set(dogs.map((d: any) => d.animalGeneralAge).filter(Boolean))].sort();
+
   const favoriteDogs = dogs
-    .filter((dog) => favorites.includes(dog.id))
-    .filter((dog) => {
-      if (breedFilter && dog.breed !== breedFilter) return false;
-      if (ageFilter && dog.ageCategory !== ageFilter) return false;
-      return true;
-    });
+    .filter((dog) => !breedFilter || dog.animalPrimaryBreed === breedFilter)
+    .filter((dog) => !ageFilter || dog.animalGeneralAge === ageFilter);
 
   return (
     <main className="favorites-page">
@@ -46,7 +71,7 @@ function FavoritesPage() {
           onChange={(e) => setBreedFilter(e.target.value)}
         >
           <option value="">All Breeds</option>
-          {breeds.map((b) => (
+          {breeds.map((b: any) => (
             <option key={b} value={b}>{b}</option>
           ))}
         </select>
@@ -56,13 +81,13 @@ function FavoritesPage() {
           onChange={(e) => setAgeFilter(e.target.value)}
         >
           <option value="">All Ages</option>
-          {ageCategories.map((a) => (
+          {ageCategories.map((a: any) => (
             <option key={a} value={a}>{a}</option>
           ))}
         </select>
       </div>
 
-      {favorites.length === 0 ? (
+      {dogs.length === 0 ? (
         <div className="favorites-empty">
           <p className="empty-title">No favorites yet</p>
           <p className="empty-subtitle">
