@@ -10,7 +10,7 @@ const router = express.Router();
 const client = new OAuth2Client(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    'http://localhost:5173/callback'
+    'http://localhost:3000/callback'
 );
 
 router.post('/callback', async (request, response) => {
