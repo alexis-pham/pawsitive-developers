@@ -14,7 +14,8 @@ function useDebounced<T>(value: T, delayMs: number) {
 
 // onSearch = function that receives { location, breed, age }
 function HeroSection({ dogs, onSearch }: any) {
-  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
   const [breed, setBreed] = useState("");
   const [age, setAge] = useState("");
   const breeds = [...new Set(dogs.map((d: any) => d.animalPrimaryBreed))].sort();
@@ -34,8 +35,8 @@ function HeroSection({ dogs, onSearch }: any) {
 
   function handleSubmit(e: any) {
     e.preventDefault();
-    console.log("Searching with", { location, breed, age });
-    onSearch({ location, breed, age });
+    console.log("Searching with", { city, state, breed, age });
+    onSearch({ city, state, breed, age });
   }
 
   // START OF ZIP CODE AUTOCOMPLETE
@@ -98,6 +99,19 @@ function HeroSection({ dogs, onSearch }: any) {
       `http://localhost:3001/places/details?placeId=${encodeURIComponent(s.placeId)}&sessionToken=${encodeURIComponent(sessionToken)}`
     );
     const details = await resp.json();
+
+    const components = details.addressComponents || [];
+
+    const cityComp =
+    components.find((c: any) => c.types?.includes("locality")) ||
+    components.find((c: any) => c.types?.includes("postal_town"));
+
+    const stateComp = components.find((c: any) =>
+      c.types?.includes("administrative_area_level_1")
+    );
+
+    setCity(cityComp?.longText || "");
+    setState(stateComp?.shortText || ""); // shortText = "CA"
 
     console.log("ZIP:", details.postalCode);
     console.log("LatLng:", details.location);
