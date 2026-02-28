@@ -209,6 +209,19 @@ function HeroSection({ dogs, onSearch }: any) {
                 ))}
               </select>
             </div>
+            <div className="form-row">
+              <button type="submit" className="form-button" style={{
+                    position: "absolute",
+                    border: "1px solid #ddd",
+                    background: "white",
+                    zIndex: 8,
+                    padding: 10,
+                    borderRadius: '10px',
+                    cursor: 'pointer',
+                  }}>
+                Search
+              </button>
+            </div>
           </form>
         </div>
 
