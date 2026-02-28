@@ -36,7 +36,7 @@ function HeroSection({ dogs, onSearch }: any) {
   function handleSubmit(e: any) {
     e.preventDefault();
     console.log("Searching with", { city, state, breed, age });
-    onSearch({ city, state, breed, age });
+    onSearch({ city: city, state: state, breed: breed, age: age });
   }
 
   // START OF ZIP CODE AUTOCOMPLETE
