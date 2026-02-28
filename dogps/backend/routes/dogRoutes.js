@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         const breed = typeof req.query.breed === "string" ? req.query.breed.trim() : null;
         const age = typeof req.query.age === "string" ? req.query.age.trim() : null;
 
-        const dogs = await searchDogs({ breed, age, limit : 24});
+        const dogs = await searchDogs({ breed, age, limit : 50});
         res.json(dogs);
     } catch (err) {
         console.error(err);
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 router.post('/sync', async (req, res) => {
     try {
         const start = Number(req.body?.start ?? 0);
-        const limit = Number(req.body?.limit ?? 24);
+        const limit = Number(req.body?.limit ?? 500);
 
         const result = await syncDogsFromApi({ apiKey: API_KEY, start, limit });
         res.json({ ok: true, message: `Fetched ${result.fetched} and synced ${result.upserted} dogs from API` });
