@@ -32,6 +32,8 @@ export async function upsertDogs(dogs) {
           "animalActivityLevel",
           "animalEnergyLevel",
           "animalLocation",
+          "animalCity",
+          "animalState",
 
           // Special needs
           "animalSpecialneeds",
@@ -84,7 +86,7 @@ export async function upsertDogs(dogs) {
 }   
 
 // Search dogs from the database
-export async function searchDogs({ breed = null, age = null, limit = 24 }) {
+export async function searchDogs({ breed = null, age = null, city = null, state = null, limit = 50 }) {
     const query = `
         SELECT d.*, COALESCE(s.adopted, FALSE) AS adopted
         FROM dogs d
@@ -92,11 +94,13 @@ export async function searchDogs({ breed = null, age = null, limit = 24 }) {
         WHERE
             ($1::text IS NULL or d."animalPrimaryBreed" ILIKE '%' || $1 || '%')
             AND ($2::text IS NULL or d."animalGeneralAge" ILIKE '%' || $2 || '%')
+            AND ($3::text IS NULL OR d."animalCity" = $3)
+            AND ($4::text IS NULL OR d."animalState" = $4)
         ORDER BY d.last_seen_at DESC
-        LIMIT $3
+        LIMIT $5
     `;
 
-    const {rows} = await pool.query(query, [breed, age, limit]);
+    const {rows} = await pool.query(query, [breed, age, city ? city.trim() : null, state ? state.trim().toUpperCase() : null,limit]);
     return rows;
 }
 
