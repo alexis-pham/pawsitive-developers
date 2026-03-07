@@ -1,6 +1,9 @@
 import fs from "fs";
 import path from "path"; 
 import { pool } from "./db.js";
+import { syncDogsFromApi } from '../backend/services/dogService.js';
+const API_KEY = process.env.DOG_API_KEY;
+
 
 const migrationsDir = path.join(process.cwd(), "migrations");
 
