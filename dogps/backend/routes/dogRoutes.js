@@ -7,13 +7,16 @@ import { pool } from "../db.js";
 
 const API_KEY = process.env.DOG_API_KEY;
 
-// GET /dogs?breed=&age=
+// GET /dogs?breed=&age=&city=&state=
 router.get('/', async (req, res) => {
     try {
+        console.log("Called GET dogs");
         const breed = typeof req.query.breed === "string" ? req.query.breed.trim() : null;
         const age = typeof req.query.age === "string" ? req.query.age.trim() : null;
+        const city = typeof req.query.city === "string" ? req.query.city.trim() : null;
+        const state = typeof req.query.state === "string" ? req.query.state.trim() : null;
 
-        const dogs = await searchDogs({ breed, age, limit : 50});
+        const dogs = await searchDogs({ breed, age, city, state, limit: 50 });
         res.json(dogs);
     } catch (err) {
         console.error(err);

@@ -7,7 +7,7 @@ import "./FindADog.css";
 function FindADogPage() {
   const [favorites, setFavorites] = useState<number[]>([]);
   const [dogs, setDogs] = useState<any[]>([]);
-  const [filters, setFilters] = useState({ city: "", state: "", breed: "", age: "" });
+  const [results, setResults] = useState<any[]>([]);
 
   useEffect(() => {
     const raw = localStorage.getItem("user");
@@ -20,6 +20,7 @@ function FindADogPage() {
       .then((res) => res.json())
       .then((dogsData) => {
         setDogs(dogsData);
+        setResults(dogsData);
         return fetch(`http://localhost:3001/dogs/favorites?userEmail=${userEmail}`);
       })
       .then((res) => res.json())
@@ -30,7 +31,16 @@ function FindADogPage() {
   }, []);
 
   function handleSearch(newFilters: any) {
-    setFilters(newFilters);
+    const params = new URLSearchParams();
+    if (newFilters.breed) params.set("breed", newFilters.breed);
+    if (newFilters.age) params.set("age", newFilters.age);
+    if (newFilters.city) params.set("city", newFilters.city);
+    if (newFilters.state) params.set("state", newFilters.state);
+
+    fetch(`http://localhost:3001/dogs?${params.toString()}`)
+      .then((res) => res.json())
+      .then((data) => setResults(data))
+      .catch((err) => console.error("Error fetching filtered dogs:", err));
   }
 
   function toggleFavorite(id: number) {
@@ -56,28 +66,20 @@ function FindADogPage() {
     }
   }
 
-  const filteredDogs = dogs.filter((dog) => {
-    if (filters.breed && dog.animalPrimaryBreed?.toLowerCase() !== filters.breed.toLowerCase()) return false;
-    if (filters.age && dog.animalGeneralAge?.toLowerCase() !== filters.age.toLowerCase()) return false;
-    if (filters.city && !dog.animalCity?.toLowerCase().includes(filters.city.toLowerCase())) return false;
-    if (filters.state && !dog.animalState?.toLowerCase().includes(filters.state.toLowerCase())) return false;
-    return true;
-  });
-
   return (
     <main>
       <HeroSection dogs={dogs} onSearch={handleSearch} />
 
       <div className="results-section">
         <h2 className="results-heading">
-          Available Dogs <span className="results-count">({filteredDogs.length})</span>
+          Available Dogs <span className="results-count">({results.length})</span>
         </h2>
 
-        {filteredDogs.length === 0 ? (
+        {results.length === 0 ? (
           <p className="no-results">No dogs found. Try adjusting your filters.</p>
         ) : (
           <div className="dog-grid">
-            {filteredDogs.map((dog) => (
+            {results.map((dog) => (
               <DogCard
                 key={dog.animalID}
                 dog={dog}
