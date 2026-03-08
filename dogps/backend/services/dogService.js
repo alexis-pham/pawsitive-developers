@@ -1,7 +1,8 @@
 import api from "../config/api.js"
 import { upsertDogs } from "../repos/dogRepo.js";
+import { enrichDogsWithCityState } from "./locationNormalize.js";
 
-export async function getAdoptableDogs({ apiKey, start = 0, limit = 24 }) {
+export async function getAdoptableDogs({ apiKey, start = 0, limit = 500 }) {
   try {
     const response = await api.post("/http/v2.json", {
       apikey: apiKey,
@@ -52,6 +53,8 @@ export async function getAdoptableDogs({ apiKey, start = 0, limit = 24 }) {
           "animalActivityLevel",
           "animalEnergyLevel",
           "animalLocation",
+          "animalCity",
+          "animalState",
 
           // Special needs
           "animalSpecialneeds",
@@ -113,13 +116,17 @@ function sanitizeDogData(apiDogs) {
   const validDogs = apiDogs.filter(dog => {
     // Invalid dog regex (non letter or spaces (multi word))
     const regex = /[^a-zA-Z]|\s|MYSTERY|foster|adopt|^.$/i;
-    return !(regex.test(dog["animalName"]) || dog["animalPrimaryBreed"] == (null || "") || dog["animalGeneralAge"] == (null || ""));
+    return !(
+       regex.test(dog["animalName"]) 
+    || dog["animalPrimaryBreed"] == (null || "") 
+    || dog["animalGeneralAge"] == (null || "") 
+    || dog["animalLocation"] == (null || ""));
   });
   return validDogs;
 };
 
 // This function fetches dogs from the API and upserts them into our database
-export async function syncDogsFromApi({ apiKey, start = 0, limit =24 } = {}) {
+export async function syncDogsFromApi({ apiKey, start = 0, limit = 500 } = {}) {
   if (!apiKey) {
     throw new Error("API key is required to sync dogs");
   }
@@ -131,6 +138,8 @@ export async function syncDogsFromApi({ apiKey, start = 0, limit =24 } = {}) {
   // Clean the dog data so we drop entries that arent dogs
   const cleanDogs = sanitizeDogData(apiDogs);
 
-  const upserted = await upsertDogs(cleanDogs);
+  const enrichedDogs = await enrichDogsWithCityState(cleanDogs);
+
+  const upserted = await upsertDogs(enrichedDogs);
   return { fetched: apiDogs.length, upserted };
 }

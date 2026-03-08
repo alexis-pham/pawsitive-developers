@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS dogs (
     "animalActivityLevel"        TEXT,
     "animalEnergyLevel"          TEXT,
     "animalLocation"             TEXT,
+    "animalCity"                 TEXT,
+    "animalState"                TEXT,
     "animalSpecialneeds"         TEXT,
     "animalSpecialneedsDescription" TEXT,
     "animalNeedsFoster"          TEXT,

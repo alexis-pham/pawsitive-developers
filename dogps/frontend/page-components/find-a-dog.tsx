@@ -7,7 +7,7 @@ import "./FindADog.css";
 function FindADogPage() {
   const [favorites, setFavorites] = useState<number[]>([]);
   const [dogs, setDogs] = useState<any[]>([]);
-  const [filters, setFilters] = useState({ location: "", breed: "", age: "" });
+  const [filters, setFilters] = useState({ city: "", state: "", breed: "", age: "" });
 
   useEffect(() => {
     const raw = localStorage.getItem("user");
@@ -59,7 +59,8 @@ function FindADogPage() {
   const filteredDogs = dogs.filter((dog) => {
     if (filters.breed && dog.animalPrimaryBreed?.toLowerCase() !== filters.breed.toLowerCase()) return false;
     if (filters.age && dog.animalGeneralAge?.toLowerCase() !== filters.age.toLowerCase()) return false;
-    if (filters.location && !dog.animalLocation?.toLowerCase().includes(filters.location.toLowerCase())) return false;
+    if (filters.city && !dog.animalCity?.toLowerCase().includes(filters.city.toLowerCase())) return false;
+    if (filters.state && !dog.animalState?.toLowerCase().includes(filters.state.toLowerCase())) return false;
     return true;
   });
 
