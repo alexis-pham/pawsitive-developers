@@ -1,7 +1,15 @@
 "use client";
+import { useRouter } from "next/navigation";
 import "./Navbar.css";
 
 function Navbar() {
+  const router = useRouter();
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    router.push('/login');
+  };
+
   return (
     <div className="navbar">
       <div className="logo">
@@ -14,7 +22,7 @@ function Navbar() {
         <a href="/about-us">About Us</a>
       </div>
 
-      <button className="sign-in">Sign In</button>
+      <button className="sign-in" onClick={handleSignOut}>Sign Out</button>
     </div>
   );
 }

@@ -81,7 +81,24 @@ export async function getAdoptableDogs({ apiKey, start = 0, limit = 500 }) {
           "animalPlaysToys",
           "animalGoodInCar",
           "animalCratetrained",
-          "animalLeashtrained"
+          "animalLeashtrained",
+
+          // more stuff David added
+          "fosterEmail",
+          "fosterFirstname",
+          "fosterLastname",
+          "fosterName",
+          "fosterPhoneCell",
+          "fosterPhoneHome",
+          "fosterSalutation",
+          "locationAddress",
+          "locationCity",
+          "locationCountry",
+          "locationUrl",
+          "locationName",
+          "locationPhone",
+          "locationState",
+          "locationPostalcode"
         ]
       }
     });

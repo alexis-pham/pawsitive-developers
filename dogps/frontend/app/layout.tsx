@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Nunito } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import Navbar from '@/components/navbar'
+import ConditionalNavbar from '@/components/conditional-navbar'
 import './globals.css'
 
 const nunito = Nunito({ subsets: ['latin'], variable: '--font-nunito' })
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunito.variable} font-sans antialiased`}>
-        <Navbar />
+        <ConditionalNavbar />
         {children}
         <Analytics />
       </body>
