@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import HeroSection from "../components/hero-section";
 import DogCard from "../components/dog-card";
+import DogModal from "../components/DogModal";
 import "./FindADog.css";
 
 function FindADogPage() {
   const [favorites, setFavorites] = useState<number[]>([]);
   const [dogs, setDogs] = useState<any[]>([]);
   const [results, setResults] = useState<any[]>([]);
+  const [selectedDog, setSelectedDog] = useState<any>(null);
 
   useEffect(() => {
     const raw = localStorage.getItem("user");
@@ -69,6 +71,7 @@ function FindADogPage() {
   return (
     <main>
       <HeroSection dogs={dogs} onSearch={handleSearch} />
+      {selectedDog && <DogModal dog={selectedDog} onClose={() => setSelectedDog(null)} />}
 
       <div className="results-section">
         <h2 className="results-heading">
@@ -85,6 +88,7 @@ function FindADogPage() {
                 dog={dog}
                 isFavorite={favorites.includes(dog.id)}
                 onToggleFavorite={toggleFavorite}
+                onCardClick={() => setSelectedDog(dog)}
               />
             ))}
           </div>

@@ -1,0 +1,265 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-panel {
+  position: relative;
+  background: #ffffff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 660px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1E152A;
+}
+
+.modal-close:hover {
+  background: #e0e0e0;
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Top row: thumbnail left, name+facts right */
+.modal-top {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.modal-image {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #BFC3BA;
+}
+
+.modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modal-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1E152A;
+  margin: 0;
+}
+
+.modal-gender {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.modal-gender.male {
+  background: #FE5F00;
+  color: #ffffff;
+}
+
+.modal-gender.female {
+  background: #FFBEEF;
+  color: #1E152A;
+}
+
+.modal-gender.unknown {
+  background: #BFC3BA;
+  color: #1E152A;
+}
+
+/* Quick facts grid — fills remaining space next to the image */
+.modal-facts {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  align-content: start;
+}
+
+.modal-fact {
+  background: #f7f7f7;
+  border-radius: 7px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.fact-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #00635D;
+}
+
+.fact-value {
+  font-size: 13px;
+  color: #1E152A;
+  font-weight: 500;
+}
+
+/* Section header */
+.modal-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #4a4a4a;
+  margin: 0 0 8px;
+}
+
+/* Compatibility tags */
+.modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.modal-tag {
+  background: rgba(0, 99, 93, 0.1);
+  color: #00635D;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* Contact section */
+.modal-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.contact-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #00635D;
+  min-width: 56px;
+  flex-shrink: 0;
+}
+
+.contact-value {
+  font-size: 14px;
+  color: #1E152A;
+}
+
+.contact-link {
+  font-size: 14px;
+  color: #00635D;
+  text-decoration: none;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+/* Special needs */
+.modal-special-needs {
+  background: #fff4ec;
+  border: 1px solid #FE5F00;
+  color: #c44700;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.special-needs-desc {
+  font-weight: 400;
+}
+
+/* Description */
+.modal-description {
+  font-size: 14px;
+  color: #4a4a4a;
+  line-height: 1.6;
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+/* Footer */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
+  border-top: 1px solid #ebebeb;
+  gap: 12px;
+}
+
+.modal-fee {
+  font-size: 14px;
+  color: #4a4a4a;
+}
+
+.modal-fee strong {
+  color: #1E152A;
+}
+
+.modal-link {
+  display: inline-block;
+  background: #00635D;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  margin-left: auto;
+}
+
+.modal-link:hover {
+  background: #004d48;
+}

@@ -4,12 +4,13 @@ import "./DogCard.css";
 // dog = one dog object from dogs-data.ts
 // isFavorite = true/false
 // onToggleFavorite = function that takes a dog id
-function DogCard({ dog, isFavorite, onToggleFavorite }: any) {
+function DogCard({ dog, isFavorite, onToggleFavorite, onCardClick }: any) {
   return (
-    <div className="dog-card">
+    <div className="dog-card" onClick={onCardClick} style={{ cursor: "pointer" }}>
       <button
         className={isFavorite ? "favorite-btn favorited" : "favorite-btn"}
-        onClick={() => onToggleFavorite(dog.id)}      >
+        onClick={(e) => { e.stopPropagation(); onToggleFavorite(dog.id); }}
+      >
         {isFavorite ? "\u2665" : "\u2661"}
       </button>
 
