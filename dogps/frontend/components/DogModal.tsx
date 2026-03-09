@@ -129,7 +129,7 @@ function DogModal({ dog, onClose }: { dog: any; onClose: () => void }) {
                 {dog.locationAddress && (
                   <div className="contact-row">
                     <span className="contact-label">Address</span>
-                    <span className="contact-value">{dog.locationAddress}</span>
+                    <span className="contact-value"><a className="contact-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dog.locationAddress)}`} target="_blank">{dog.locationAddress}</a></span>
                   </div>
                 )}
               </div>

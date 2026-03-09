@@ -2,7 +2,7 @@ import api from "../config/api.js"
 import { upsertDogs } from "../repos/dogRepo.js";
 import { enrichDogsWithCityState } from "./locationNormalize.js";
 
-export async function getAdoptableDogs({ apiKey, start = 0, limit = 500 }) {
+export async function getAdoptableDogs({ apiKey, start = 0, limit = 1000 }) {
   try {
     const response = await api.post("/http/v2.json", {
       apikey: apiKey,
@@ -120,8 +120,15 @@ function sanitizeDogData(apiDogs) {
        regex.test(dog["animalName"]) 
     || dog["animalPrimaryBreed"] == (null || "") 
     || dog["animalGeneralAge"] == (null || "") 
-    || dog["animalLocation"] == (null || ""));
+    || dog["animalLocation"] == (null || "")
+    || (
+        dog["fosterEmail"] == (null || "") 
+     && dog["fosterPhoneCell"] == (null || "")
+     && dog["locationAddress"] == (null || "")
+    )
+  );
   });
+  console.info("Returned cleaned dogs");
   return validDogs;
 };
 
