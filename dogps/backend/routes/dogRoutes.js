@@ -80,7 +80,7 @@ router.get('/favorites', async (req, res) => {
 
     try {
         const result = await pool.query(
-        `SELECT d.id, d."animalName", d."animalThumbnailUrl", d."animalPrimaryBreed", d."animalGeneralAge"
+        `SELECT d.*
         FROM dogs d
         JOIN dog_user_favorites f ON f.dog_id = d.id
         JOIN users u ON u.id = f.user_id

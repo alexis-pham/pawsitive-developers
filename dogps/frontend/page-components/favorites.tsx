@@ -2,12 +2,14 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import DogCard from "../components/dog-card";
+import DogModal from "../components/DogModal";
 import "./Favorites.css";
 
 function FavoritesPage() {
   const router = useRouter();
   const [favorites, setFavorites] = useState<number[]>([]);
   const [dogs, setDogs] = useState<any[]>([]);
+  const [selectedDog, setSelectedDog] = useState<any>(null);
   const [breedFilter, setBreedFilter] = useState("");
   const [ageFilter, setAgeFilter] = useState("");
 
@@ -57,6 +59,7 @@ function FavoritesPage() {
 
   return (
     <main className="favorites-page">
+      {selectedDog && <DogModal dog={selectedDog} onClose={() => setSelectedDog(null)} />}
       <h1 className="favorites-title">Favorites</h1>
       <p className="favorites-subtitle">
         Dogs you have favorited will appear here. Heart a dog on the Find a Dog
@@ -107,6 +110,7 @@ function FavoritesPage() {
               dog={dog}
               isFavorite={favorites.includes(dog.id)}
               onToggleFavorite={toggleFavorite}
+              onCardClick={() => setSelectedDog(dog)}
             />
           ))}
         </div>
