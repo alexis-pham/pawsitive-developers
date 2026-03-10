@@ -3,6 +3,7 @@ import cors from "cors";
 import dogRouter from "./routes/dogRoutes.js";
 import authRouter from "./routes/authRoutes.js";
 import placesRouter from "./routes/placesRoutes.js";
+import surveyRouter from "./routes/userRoutes.js";
 import { registerDogCron } from "./services/updateDbCron.js";
 import "dotenv/config"
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/dogs', dogRouter);
 app.use('/auth', authRouter);
 app.use("/places", placesRouter);
+app.use("/survey", surveyRouter);
 
 // Start cron job to update database with dogs
 registerDogCron(API_KEY);
