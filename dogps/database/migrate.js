@@ -30,7 +30,7 @@ async function runMigrations() {
     const syncDB = async () => {
         console.log(`Seeding DB with dogs!`);
         try {
-            await syncDogsFromApi({ apiKey: API_KEY, start: 0, limit: 500});
+            await syncDogsFromApi({ apiKey: API_KEY, start: 0, limit: 400});
             console.info(`Successfully updated database with new dogs`);
         } catch (err) {
             console.error("Error syncing dogs to database:", err);
