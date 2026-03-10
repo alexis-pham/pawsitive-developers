@@ -2,109 +2,131 @@ import api from "../config/api.js"
 import { upsertDogs } from "../repos/dogRepo.js";
 import { enrichDogsWithCityState } from "./locationNormalize.js";
 
-export async function getAdoptableDogs({ apiKey, start = 0, limit = 1000 }) {
+export async function getAdoptableDogs({ apiKey, start = 0, limit = 400 }) {
   try {
-    const response = await api.post("/http/v2.json", {
-      apikey: apiKey,
-      objectType: "animals",
-      objectAction: "publicSearch",
-      search: {
-        resultStart: start,
-        resultLimit: limit,
-        resultSort: "animalID",
-        resultOrder: "asc",
-        filters: [
-          {
-            fieldName: "animalSpecies",
-            operation: "equals",
-            criteria: "Dog"
-          },
-          {
-            fieldName: "animalStatus",
-            operation: "equals",
-            criteria: "Available"
-          }
-        ],
-        fields: [
-          // Core listing info
-          "animalID",
-          "animalName",
-          "animalStatus",
-          "animalAdoptionFee",
-          "animalPrimaryBreed",
-          "animalSex",
-          "animalGeneralAge",
-          "animalGeneralSizePotential",
-          "animalSizeCurrent",
-          "animalSizeUOM",
-          "animalColor",
-          "animalDescriptionPlain",
-          "animalThumbnailUrl",
-          "animalPictures",
-          "animalUrl",
-          "animalBirthdate",
+    let allDogs = [];
+    let numBatches = 0;
 
-          // Compatibility / filtering
-          "animalOKWithKids",
-          "animalOKWithDogs",
-          "animalOKWithCats",
-          "animalHousetrained",
-          "animalAltered",
-          "animalActivityLevel",
-          "animalEnergyLevel",
-          "animalLocation",
-          "animalCity",
-          "animalState",
+    while (numBatches < 10) {
+      const response = await api.post("/http/v2.json", {
+        apikey: apiKey,
+        objectType: "animals",
+        objectAction: "publicSearch",
+        search: {
+          resultStart: start,
+          resultLimit: limit,
+          resultSort: "animalID",
+          resultOrder: "asc",
+          filters: [
+            {
+              fieldName: "animalSpecies",
+              operation: "equals",
+              criteria: "Dog"
+            },
+            {
+              fieldName: "animalStatus",
+              operation: "equals",
+              criteria: "Available"
+            }
+          ],
+          fields: [
+            // Core listing info
+            "animalID",
+            "animalName",
+            "animalStatus",
+            "animalAdoptionFee",
+            "animalPrimaryBreed",
+            "animalSex",
+            "animalGeneralAge",
+            "animalGeneralSizePotential",
+            "animalSizeCurrent",
+            "animalSizeUOM",
+            "animalColor",
+            "animalDescriptionPlain",
+            "animalThumbnailUrl",
+            "animalPictures",
+            "animalUrl",
+            "animalBirthdate",
 
-          // Special needs
-          "animalSpecialneeds",
-          "animalSpecialneedsDescription",
-          "animalNeedsFoster",
-          "animalOKForSeniors",
-          "animalApartment",
+            // Compatibility / filtering
+            "animalOKWithKids",
+            "animalOKWithDogs",
+            "animalOKWithCats",
+            "animalHousetrained",
+            "animalAltered",
+            "animalActivityLevel",
+            "animalEnergyLevel",
+            "animalLocation",
+            "animalCity",
+            "animalState",
 
-          // Personality traits
-          "animalPlayful",
-          "animalAffectionate",
-          "animalGentle",
-          "animalTimid",
-          "animalLap",
-          "animalIntelligent",
-          "animalEagerToPlease",
-          "animalGoofy",
-          "animalIndependent",
-          "animalProtective",
-          "animalSkittish",
-          "animalObedient",
-          "animalFetches",
-          "animalSwims",
-          "animalPlaysToys",
-          "animalGoodInCar",
-          "animalCratetrained",
-          "animalLeashtrained",
+            // Special needs
+            "animalSpecialneeds",
+            "animalSpecialneedsDescription",
+            "animalNeedsFoster",
+            "animalOKForSeniors",
+            "animalApartment",
 
-          // more stuff David added
-          "fosterEmail",
-          "fosterFirstname",
-          "fosterLastname",
-          "fosterName",
-          "fosterPhoneCell",
-          "fosterPhoneHome",
-          "fosterSalutation",
-          "locationAddress",
-          "locationCity",
-          "locationCountry",
-          "locationUrl",
-          "locationName",
-          "locationPhone",
-          "locationState",
-          "locationPostalcode"
-        ]
+            // Personality traits
+            "animalPlayful",
+            "animalAffectionate",
+            "animalGentle",
+            "animalTimid",
+            "animalLap",
+            "animalIntelligent",
+            "animalEagerToPlease",
+            "animalGoofy",
+            "animalIndependent",
+            "animalProtective",
+            "animalSkittish",
+            "animalObedient",
+            "animalFetches",
+            "animalSwims",
+            "animalPlaysToys",
+            "animalGoodInCar",
+            "animalCratetrained",
+            "animalLeashtrained",
+
+            // more stuff David added
+            "fosterEmail",
+            "fosterFirstname",
+            "fosterLastname",
+            "fosterName",
+            "fosterPhoneCell",
+            "fosterPhoneHome",
+            "fosterSalutation",
+            "locationAddress",
+            "locationCity",
+            "locationCountry",
+            "locationUrl",
+            "locationName",
+            "locationPhone",
+            "locationState",
+            "locationPostalcode"
+          ]
+        }
+      });
+
+      const rawDogs = response?.data?.data;
+
+      const dogsArray = Array.isArray(rawDogs) ? rawDogs : rawDogs 
+        && typeof rawDogs === "object"
+          ? Object.values(rawDogs)
+          : [];
+
+      const dogs = dogsArray.filter(dog => dog && dog.animalID != null);
+
+      allDogs.push(...dogs);
+
+      numBatches++;
+      start += limit;
+      
+      if (dogsArray.length < limit) {
+        break;
       }
-    });
-
-    const dogs = response.data.data;
-    return dogs;
+    }
+    
+    return allDogs;
   } catch (err) {
     console.error("Error fetching adoptable dogs:", err.response?.data || err.message);
     throw err;
@@ -133,7 +155,7 @@ function sanitizeDogData(apiDogs) {
 };
 
 // This function fetches dogs from the API and upserts them into our database
-export async function syncDogsFromApi({ apiKey, start = 0, limit = 500 } = {}) {
+export async function syncDogsFromApi({ apiKey, start = 0, limit = 400 } = {}) {
   if (!apiKey) {
     throw new Error("API key is required to sync dogs");
   }
