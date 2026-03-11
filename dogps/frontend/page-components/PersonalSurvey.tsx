@@ -202,10 +202,15 @@ export default function PersonalSurveyPage() {
   function fetchMatchedDogs(surveyAnswers: SurveyAnswers, email: string) {
     const params = new URLSearchParams();
     if (surveyAnswers.dog_breed) params.set("breed", surveyAnswers.dog_breed);
-    if (surveyAnswers.dog_age && surveyAnswers.dog_age !== "No preference")
-      params.set("age", surveyAnswers.dog_age);
+    if (surveyAnswers.dog_age && surveyAnswers.dog_age !== "No preference") params.set("age", surveyAnswers.dog_age);
+    if (surveyAnswers.dog_size && surveyAnswers.dog_size !== "No preference") params.set("size", surveyAnswers.dog_size);
+    if (surveyAnswers.has_kids === "Yes") params.set("hasKids", "true");
+    if (surveyAnswers.has_dogs === "Yes") params.set("hasDogs", "true");
+    if (surveyAnswers.has_cats === "Yes") params.set("hasCats", "true");
+    if (surveyAnswers.activity_level && surveyAnswers.activity_level !== "Not sure") params.set("activityLevel", surveyAnswers.activity_level);
+    if (surveyAnswers.housing_type && surveyAnswers.housing_type !== "Not sure") params.set("housingType", surveyAnswers.housing_type);
 
-    fetch(`${API_BASE}/dogs?${params.toString()}`)
+    fetch(`${API_BASE}/dogs/match?${params.toString()}`)
       .then((res) => res.json())
       .then((dogsData) => {
         setMatchedDogs(dogsData);

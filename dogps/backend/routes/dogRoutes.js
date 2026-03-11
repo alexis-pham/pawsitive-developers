@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import "dotenv/config"
 import { syncDogsFromApi } from "../services/dogService.js";
-import { searchDogs } from "../repos/dogRepo.js";
+import { searchDogs, matchDogsBySurvey } from "../repos/dogRepo.js";
 import { pool } from "../db.js";
 
 const API_KEY = process.env.DOG_API_KEY;
@@ -23,6 +23,26 @@ router.get('/', async (req, res) => {
         res.status(500).json({ ok: false, message: err.message });
     }
 })
+
+// GET /dogs/match?breed=&age=&size=&hasKids=&hasDogs=&hasCats=&activityLevel=&housingType=
+router.get('/match', async (req, res) => {
+    try {
+        const breed         = typeof req.query.breed         === "string" ? req.query.breed.trim()         : null;
+        const age           = typeof req.query.age           === "string" ? req.query.age.trim()           : null;
+        const size          = typeof req.query.size          === "string" ? req.query.size.trim()          : null;
+        const activityLevel = typeof req.query.activityLevel === "string" ? req.query.activityLevel.trim() : null;
+        const housingType   = typeof req.query.housingType   === "string" ? req.query.housingType.trim()   : null;
+        const hasKids = req.query.hasKids === "true";
+        const hasDogs = req.query.hasDogs === "true";
+        const hasCats = req.query.hasCats === "true";
+
+        const dogs = await matchDogsBySurvey({ breed, age, size, hasKids, hasDogs, hasCats, activityLevel, housingType });
+        res.json(dogs);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ ok: false, message: err.message });
+    }
+});
 
 // POST /dogs/sync
 // Syncs dogs from the API
