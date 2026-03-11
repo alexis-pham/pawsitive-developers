@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
         const city = typeof req.query.city === "string" ? req.query.city.trim() : null;
         const state = typeof req.query.state === "string" ? req.query.state.trim() : null;
 
-        const dogs = await searchDogs({ breed, age, city, state, limit: 50 });
+        const dogs = await searchDogs({ breed, age, city, state, limit: 51 });
         res.json(dogs);
     } catch (err) {
         console.error(err);
