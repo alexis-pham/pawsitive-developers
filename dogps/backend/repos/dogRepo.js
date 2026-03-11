@@ -102,6 +102,69 @@ export async function upsertDogs(dogs) {
     return dogs.length;
 }   
 
+// Match dogs by survey answers, ranked by how many criteria each dog satisfies
+export async function matchDogsBySurvey({ breed = null, age = null, size = null, hasKids = false, hasDogs = false, hasCats = false, activityLevel = null, housingType = null, limit = 50 }) {
+    let activityTerm = null;
+    if (activityLevel) {
+        const l = activityLevel.toLowerCase();
+        if (l.includes("low"))           activityTerm = "Low";
+        else if (l.includes("moderate")) activityTerm = "Moderate";
+        else if (l.includes("high"))     activityTerm = "High";
+    }
+    const needsApartment = housingType === "Apartment" || housingType === "Condo";
+
+    // Hard filters: breed, age, size (null = no filter)
+    // Lifestyle criteria are scored — dogs matching more criteria rank higher
+    const query = `
+        SELECT d.*, COALESCE(s.adopted, FALSE) AS adopted,
+          (
+            (CASE WHEN $4  AND d."animalOKWithKids"   ILIKE '%yes%' THEN 1 ELSE 0 END) +
+            (CASE WHEN $5  AND d."animalOKWithDogs"   ILIKE '%yes%' THEN 1 ELSE 0 END) +
+            (CASE WHEN $6  AND d."animalOKWithCats"   ILIKE '%yes%' THEN 1 ELSE 0 END) +
+            (CASE WHEN $7::text IS NOT NULL AND d."animalActivityLevel" ILIKE '%' || $7 || '%' THEN 1 ELSE 0 END) +
+            (CASE WHEN $8  AND d."animalApartment"    ILIKE '%yes%' THEN 1 ELSE 0 END)
+          ) AS match_score
+        FROM dogs d
+        LEFT JOIN dog_status s ON s.dog_id = d.id
+        WHERE
+            ($1::text IS NULL OR d."animalPrimaryBreed"        ILIKE '%' || $1 || '%')
+            AND ($2::text IS NULL OR d."animalGeneralAge"          ILIKE '%' || $2 || '%')
+            AND ($3::text IS NULL OR d."animalGeneralSizePotential" ILIKE '%' || $3 || '%')
+        ORDER BY match_score DESC, d.last_seen_at DESC
+        LIMIT $9
+    `;
+
+    const { rows } = await pool.query(query, [
+        breed, age, size,
+        hasKids, hasDogs, hasCats,
+        activityTerm,
+        needsApartment,
+        limit,
+    ]);
+
+    if (rows.length > 0) return rows;
+
+    // Fallback: drop breed/age/size filters too, return top scored dogs
+    const fallback = `
+        SELECT d.*, COALESCE(s.adopted, FALSE) AS adopted,
+          (
+            (CASE WHEN $1  AND d."animalOKWithKids"   ILIKE '%yes%' THEN 1 ELSE 0 END) +
+            (CASE WHEN $2  AND d."animalOKWithDogs"   ILIKE '%yes%' THEN 1 ELSE 0 END) +
+            (CASE WHEN $3  AND d."animalOKWithCats"   ILIKE '%yes%' THEN 1 ELSE 0 END) +
+            (CASE WHEN $4::text IS NOT NULL AND d."animalActivityLevel" ILIKE '%' || $4 || '%' THEN 1 ELSE 0 END) +
+            (CASE WHEN $5  AND d."animalApartment"    ILIKE '%yes%' THEN 1 ELSE 0 END)
+          ) AS match_score
+        FROM dogs d
+        LEFT JOIN dog_status s ON s.dog_id = d.id
+        ORDER BY match_score DESC, d.last_seen_at DESC
+        LIMIT $6
+    `;
+    const { rows: fallbackRows } = await pool.query(fallback, [
+        hasKids, hasDogs, hasCats, activityTerm, needsApartment, limit,
+    ]);
+    return fallbackRows;
+}
+
 // Search dogs from the database
 export async function searchDogs({ breed = null, age = null, city = null, state = null, limit = 50 }) {
     const query = `

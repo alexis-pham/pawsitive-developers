@@ -19,6 +19,7 @@ function Navbar() {
         <a href="/find-a-dog">Find a Dog</a>
         <a href="/find-shelters">Find Shelters</a>
         <a href="/favorites">Favorites</a>
+        <a href="/personal-survey">Personal Survey</a>
         <a href="/about-us">About Us</a>
       </div>
 
