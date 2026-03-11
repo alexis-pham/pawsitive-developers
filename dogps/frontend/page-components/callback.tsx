@@ -21,7 +21,16 @@ function Callback() {
         .then((data) => {
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("token", data.token);
-          router.push("/find-a-dog");
+
+          window.dispatchEvent(new Event('authChange'));
+
+          const redirectUrl = sessionStorage.getItem('postLoginRedirect');
+          if (redirectUrl) {
+            sessionStorage.removeItem('postLoginRedirect');
+            router.push(redirectUrl);
+          } else {
+            router.push("/find-a-dog");
+          }
         })
         .catch((error) => {
           console.error("Authentication failed:", error);

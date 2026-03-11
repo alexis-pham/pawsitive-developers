@@ -1,4 +1,4 @@
-import Login from '@/page-components/login'
+import FindADogPage from '@/page-components/find-a-dog'
 export default function Page() {
-  return <Login />
+  return <FindADogPage />
 }

@@ -4,5 +4,5 @@ import Navbar from './navbar';
 
 export default function ConditionalNavbar() {
   const pathname = usePathname();
-  return pathname !== '/login' && pathname !== '/' ? <Navbar /> : null;
+  return pathname !== '/login' ? <Navbar /> : null;
 }

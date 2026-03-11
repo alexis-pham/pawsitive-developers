@@ -1,34 +1,43 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import DogCard from "../components/dog-card";
 import DogModal from "../components/DogModal";
 import "./Favorites.css";
 
 function FavoritesPage() {
-  const router = useRouter();
   const [favorites, setFavorites] = useState<number[]>([]);
   const [dogs, setDogs] = useState<any[]>([]);
   const [selectedDog, setSelectedDog] = useState<any>(null);
   const [breedFilter, setBreedFilter] = useState("");
   const [ageFilter, setAgeFilter] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const raw = localStorage.getItem("user");
-    if (!raw) {
-      router.push("/");
-      return;
-    }
-    const user = JSON.parse(raw);
-    const userEmail = user?.email;
+    const loadFavorites = () => {
+      const raw = localStorage.getItem("user");
+      if (!raw) {
+        setIsLoggedIn(false);
+        setDogs([]);
+        setFavorites([]);
+        return;
+      }
+      setIsLoggedIn(true);
+      const user = JSON.parse(raw);
+      const userEmail = user?.email;
 
-    fetch(`http://localhost:3001/dogs/favorites?userEmail=${userEmail}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setDogs(data.dogs);
-        setFavorites(data.dogs.map((d: any) => d.id));
-      })
-      .catch((err) => console.error("Error fetching favorites", err));
+      fetch(`http://localhost:3001/dogs/favorites?userEmail=${userEmail}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setDogs(data.dogs);
+          setFavorites(data.dogs.map((d: any) => d.id));
+        })
+        .catch((err) => console.error("Error fetching favorites", err));
+    };
+
+    loadFavorites();
+
+    window.addEventListener('authChange', loadFavorites);
+    return () => window.removeEventListener('authChange', loadFavorites);
   }, []);
 
   function toggleFavorite(id: number) {
@@ -56,6 +65,20 @@ function FavoritesPage() {
   const favoriteDogs = dogs
     .filter((dog) => !breedFilter || dog.animalPrimaryBreed === breedFilter)
     .filter((dog) => !ageFilter || dog.animalGeneralAge === ageFilter);
+
+  if (!isLoggedIn) {
+    return (
+      <main className="favorites-page">
+        <h1 className="favorites-title">Favorites</h1>
+        <div className="favorites-empty">
+          <p className="empty-title">Sign in to see favorited dogs!</p>
+          <p className="empty-subtitle">
+            Please <a href="/login?redirect=/favorites" style={{ color: '#00635D', textDecoration: 'underline' }}>sign in</a> to view and manage your favorite dogs.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="favorites-page">
