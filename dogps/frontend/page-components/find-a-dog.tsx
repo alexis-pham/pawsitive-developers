@@ -12,24 +12,35 @@ function FindADogPage() {
   const [selectedDog, setSelectedDog] = useState<any>(null);
 
   useEffect(() => {
-    const raw = localStorage.getItem("user");
-    if (!raw) return;
-    const user = JSON.parse(raw);
-    const userEmail = user?.email;
+    const loadData = () => {
+      
+      fetch("http://localhost:3001/dogs")
+        .then((res) => res.json())
+        .then((dogsData) => {
+          setDogs(dogsData);
+          setResults(dogsData);
 
-    // Fetch dogs first, then favorites
-    fetch("http://localhost:3001/dogs")
-      .then((res) => res.json())
-      .then((dogsData) => {
-        setDogs(dogsData);
-        setResults(dogsData);
-        return fetch(`http://localhost:3001/dogs/favorites?userEmail=${userEmail}`);
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        setFavorites(data.dogs.map((f: any) => f.id));
-      })
-      .catch((err) => console.error("Error loading data:", err));
+          const raw = localStorage.getItem("user");
+          if (!raw) {
+            setFavorites([]);
+            return;
+          }
+          const user = JSON.parse(raw);
+          const userEmail = user?.email;
+
+          return fetch(`http://localhost:3001/dogs/favorites?userEmail=${userEmail}`)
+            .then((res) => res.json())
+            .then((data) => {
+              setFavorites(data.dogs.map((f: any) => f.id));
+            });
+        })
+        .catch((err) => console.error("Error loading data:", err));
+    };
+
+    loadData();
+
+    window.addEventListener('authChange', loadData);
+    return () => window.removeEventListener('authChange', loadData);
   }, []);
 
   function handleSearch(newFilters: any) {
@@ -47,7 +58,11 @@ function FindADogPage() {
 
   function toggleFavorite(id: number) {
     const raw = localStorage.getItem("user");
-    if (!raw) return;
+    if (!raw) {
+      // Redirect to login with return URL
+      window.location.href = "/login?redirect=/find-a-dog";
+      return;
+    }
     const user = JSON.parse(raw);
     const userEmail = user?.email;
 
