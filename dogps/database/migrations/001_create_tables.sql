@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS dogs (
     "animalSizeCurrent"          TEXT,
     "animalSizeUOM"              TEXT,
     "animalColor"                TEXT,
-    "animalDescriptionPlain"     TEXT,
+    "animalDescriptionPlain"     TEXT UNIQUE,
     "animalThumbnailUrl"         TEXT,
     "animalPictures"             TEXT,
     "animalUrl"                  TEXT,

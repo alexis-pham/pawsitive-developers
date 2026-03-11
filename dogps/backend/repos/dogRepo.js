@@ -87,18 +87,69 @@ export async function upsertDogs(dogs) {
         return `(${cols.map((_, j) => `$${base + j + 1}`).join(", ")})`;
     });
 
-    const updateCols = cols.filter(col => col !== "animalID")
-        .map(col => `"${col}" = EXCLUDED."${col}"`)
-        .join(",\n  ");
+    // Create client for the transaction
+    const client = await pool.connect();
 
-    const query = `
-        INSERT INTO dogs (${cols.map( c => `"${c}"`).join(",")})
-        VALUES ${placeholders.join(", ")}
-        ON CONFLICT ("animalID") DO UPDATE SET
-            ${updateCols}
-    `;
+    try {
+        await client.query('BEGIN');
 
-    await pool.query(query, values);
+        // 1. Create a staging table that matches your 'dogs' structure
+        // 'ON COMMIT DROP' ensures it is automatically deleted after the transaction
+        await client.query(`
+            CREATE TEMP TABLE dogs_staging 
+            ON COMMIT DROP 
+            AS SELECT * FROM dogs WHERE FALSE
+        `);
+
+        // 2. Remove the auto-incrementing ID column from staging so it doesn't error on NULL
+        await client.query(`ALTER TABLE dogs_staging DROP COLUMN IF EXISTS id`);
+
+        // 2. Bulk Insert all dogs into the staging table
+        const insertStagingQuery = `
+            INSERT INTO dogs_staging ("${cols.join('", "')}") 
+            VALUES ${placeholders.join(", ")}
+        `;
+        await client.query(insertStagingQuery, values);
+
+        // 3. Update existing records (match only on animalID)
+        const updateQuery = `
+            UPDATE dogs d
+            SET ${cols.filter(c => c !== "animalID").map(c => `"${c}" = s."${c}"`).join(", ")}
+            FROM (
+                SELECT DISTINCT ON ("animalID") * 
+                FROM dogs_staging
+                ORDER BY "animalID"
+            ) s
+            WHERE d."animalID" = s."animalID"
+        `;
+        await client.query(updateQuery);
+
+        // 4. Insert new records, skipping any whose description already exists
+        const insertQuery = `
+            INSERT INTO dogs ("${cols.join('", "')}")
+            SELECT DISTINCT ON ("animalDescriptionPlain") "${cols.join('", "')}"
+            FROM dogs_staging s
+            WHERE NOT EXISTS (
+                SELECT 1 FROM dogs d 
+                WHERE d."animalID" = s."animalID"
+            )
+            ORDER BY "animalDescriptionPlain", "animalID"
+            ON CONFLICT (md5("animalDescriptionPlain")) DO NOTHING
+        `;
+        await client.query(insertQuery);
+
+
+        
+        await client.query('COMMIT');
+        console.log('Successfully processed records.');
+    } catch (e) {
+        await client.query('ROLLBACK');
+        console.error('Transaction failed, rolled back:', e);
+        throw e;
+    } finally {
+        client.release();
+    }
+
     return dogs.length;
 }   
 

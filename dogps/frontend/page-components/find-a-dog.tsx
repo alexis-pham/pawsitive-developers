@@ -7,7 +7,6 @@ import "./FindADog.css";
 
 function FindADogPage() {
   const [favorites, setFavorites] = useState<number[]>([]);
-  const [dogs, setDogs] = useState<any[]>([]);
   const [results, setResults] = useState<any[]>([]);
   const [selectedDog, setSelectedDog] = useState<any>(null);
 
@@ -21,8 +20,16 @@ function FindADogPage() {
     fetch("http://localhost:3001/dogs")
       .then((res) => res.json())
       .then((dogsData) => {
-        setDogs(dogsData);
-        setResults(dogsData);
+
+        const seen = new Set<string>();
+        const validDogs = dogsData.filter((dog: any) => {
+          const key = `${dog.animalName}|${dog.animalSex}|${dog.animalPrimaryBreed}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+
+        setResults(validDogs);
         return fetch(`http://localhost:3001/dogs/favorites?userEmail=${userEmail}`);
       })
       .then((res) => res.json())
@@ -70,7 +77,7 @@ function FindADogPage() {
 
   return (
     <main>
-      <HeroSection dogs={dogs} onSearch={handleSearch} />
+      <HeroSection dogs={results} onSearch={handleSearch} />
       {selectedDog && <DogModal dog={selectedDog} onClose={() => setSelectedDog(null)} />}
 
       <div className="results-section">
