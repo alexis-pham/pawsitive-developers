@@ -13,5 +13,6 @@ CREATE INDEX IF NOT EXISTS idx_dogs_location ON dogs("animalLocation");
 CREATE INDEX IF NOT EXISTS idx_dogs_special_needs ON dogs("animalSpecialneeds");
 
 ALTER TABLE dogs DROP CONSTRAINT IF EXISTS "dogs_animalDescriptionPlain_key";
-CREATE UNIQUE INDEX "dogs_animalDescriptionPlain_key" 
+DROP INDEX IF EXISTS "dogs_animalDescriptionPlain_key";
+CREATE UNIQUE INDEX IF NOT EXISTS "dogs_animalDescriptionPlain_key" 
 ON dogs (md5("animalDescriptionPlain"));
