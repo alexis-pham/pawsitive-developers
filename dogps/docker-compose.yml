@@ -22,13 +22,15 @@ services:
     volumes:
       - ./database:/app
       - ./backend:/backend
-    command: sh -c "npm install && node migrate.js"
+    command: sh -c "npm install && cd /backend && npm install && cd /app && node migrate.js"
     environment:
       DATABASE_URL: postgresql://postgres:pawsitivedevelopers@db:5432/dogps_db
+      DOG_API_KEY: ${DOG_API_KEY}
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
     depends_on:
       db:
         condition: service_healthy
-    restart: "no"           # runs once and exits
+    restart: "no"
 
   backend:
     build: ./backend
