@@ -1,2 +1,8 @@
 import Callback from "@/page-components/callback";
-export default function Page() { return <Callback /> }
+import { Suspense } from "react"
+
+export default function Page() { return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Callback />
+    </Suspense>
+)}
