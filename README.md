@@ -5,7 +5,7 @@ Next.js (Frontend) + Node.js (Backend) + PostgreSQL (Database)
 
 ## 📦 Prerequisites
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
-- [Node.js](Node.js)
+- [Node.js](Nodejs.org/en)
 
 ## Running the App
 

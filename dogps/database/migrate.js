@@ -32,13 +32,14 @@ async function runMigrations() {
         try {
             await syncDogsFromApi({ apiKey: API_KEY, start: 0, limit: 400});
             console.info(`Successfully updated database with new dogs`);
+            console.log("All migrations have been applied.");
         } catch (err) {
             console.error("Error syncing dogs to database:", err);
         }
     }
     syncDB();
 
-    console.log("All migrations have been applied.");
+    
     await pool.end();
 }
 
