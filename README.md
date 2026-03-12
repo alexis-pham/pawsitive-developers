@@ -10,14 +10,17 @@ Next.js (Frontend) + Node.js (Backend) + PostgreSQL (Database)
 ## Running the App
 
 1. Clone the repository
+
 2. From the project root, run:
 ```bash
 cd dogps
 ```
 
-3. Create three terminal instances
+3. Create two .env files, one inside the database/ directory, and one inside the backend/ directory. Paste in the contents of the .env files from the tarball and continue.
 
-4. Change directory into the frontend, backend and database in these three terminals. Then run "npm i" in each terminal.
+4. Create three terminal instances
+
+5. Change directory into the frontend, backend and database in these three terminals. Then run "npm i" in each terminal.
 
 Terminal 1
 ```bash
@@ -37,7 +40,7 @@ cd database
 npm i
 ```
 
-4. Start the database using Docker by running this command in the terminal, then run the migration script to seed the database with data. You may need to wait for 30-45 seconds for the migrate script to finish, do not Ctrl-C
+6. Start the database using Docker by running this command in the terminal, then run the migration script to seed the database with data. You may need to wait for 30-45 seconds for the migrate script to finish, do not Ctrl-C
 
 In Terminal 3
 ```bash
@@ -45,7 +48,7 @@ docker compose up -d
 node migrate.js
 ```
 
-5. Next, start the backend and frontend using "npm run dev" in each terminal:
+7. Next, start the backend and frontend using "npm run dev" in each terminal:
 
 In Terminal 1
 ```bash
@@ -57,7 +60,7 @@ In Terminal 2
 npm run dev
 ```
 
-6. The app should be up and running! Navigate to the frontend URL to view: http://localhost:3000
+8. The app should be up and running! Navigate to the frontend URL to view: http://localhost:3000
 
 Once running:
 - Frontend: http://localhost:3000
@@ -79,6 +82,12 @@ OR to remove the volume (drop the database data):
 docker compose down -v
 ```
 
+If you run into an error in the database terminal saying something already exists, please drop the database using the following command and restart the process.
+
+In Terminal 3 (Database)
+```bash
+docker compose down -v
+```
 
 ## Project Structure
 ```bash
