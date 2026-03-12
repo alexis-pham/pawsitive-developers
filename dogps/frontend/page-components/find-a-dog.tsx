@@ -13,12 +13,20 @@ function FindADogPage() {
 
   useEffect(() => {
     const loadData = () => {
-      
       fetch("http://localhost:3001/dogs")
         .then((res) => res.json())
         .then((dogsData) => {
-          setDogs(dogsData);
-          setResults(dogsData);
+
+          const seen = new Set<string>();
+          const validDogs = dogsData.filter((dog: any) => {
+            const key = `${dog.animalName}|${dog.animalSex}|${dog.animalPrimaryBreed}`;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          });
+
+          setDogs(validDogs);
+          setResults(validDogs);
 
           const raw = localStorage.getItem("user");
           if (!raw) {
