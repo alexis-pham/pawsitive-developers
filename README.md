@@ -1,41 +1,35 @@
 # 🚀 Pawsitive Developers 
-React (Frontend) + Node.js (Backend)
-
-This project consists of:
-
-- **Frontend:** React (Vite)
-- **Backend:** Node.js + Express
-- Both run locally using `npm run dev`
+Next.js (Frontend) + Node.js (Backend) + PostgreSQL (Database)
 
 ---
 
 ## 📦 Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
 
-Make sure you have installed:
+## Running the App
 
-- **Node.js** (v18+ recommended)  
-- **npm** (comes with Node)
-
-Check your versions:
-
+1. Clone the repository
+2. From the project root, run:
 ```bash
-node -v
-npm -v
+cd dogps
+docker compose up --build
 ```
 
-## Start the backend
+3. Wait for all services to start (the initial build takes a few minutes)
+
+Once running:
+- Frontend: http://localhost:3000
+- Backend: http://localhost:3001
+
+## Stopping the App
 ```bash
-cd backend
-npm install
-npm run dev
+docker compose down
 ```
 
-Open another terminal
-## Start the frontend
+To fully reset the database:
 ```bash
-cd frontend
-npm install
-npm run dev
+docker compose down -v
+docker compose up --build
 ```
 
 
@@ -56,12 +50,3 @@ project-root/
 │
 └── README.md
 ```
-
-# For database setup
-1. Create a database in postgres called dogpsDB
-2. Inside of the database folder, create a .env that has DATABASE_URL=postgres://YOUR_USERNAME:YOUR_PASSWORD@localhost:5432/dogpsDB
-3. Inside of the backend folder, add to your existing .env (currently has API KEY) and add this same thing DATABASE_URL=postgres://YOUR_USERNAME:YOUR_PASSWORD@localhost:5432/dogpsDB
-4. Make sure to run npm i in both database and backend folders, as some packages have been added.
-5. CD into the database folder. Run "node migrate.js". This will create the database locally in Postgres.
-6. Next, I need to fix this still. But for now, first run the backend server. Then, in Postman run a POST request with the URL "http://localhost:3001/dogs/sync". This will populate the DB with the API data.
-7. You should be set up now! Please update this if there was a step that I missed.
