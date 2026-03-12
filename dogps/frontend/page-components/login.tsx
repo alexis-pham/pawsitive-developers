@@ -1,11 +1,18 @@
 "use client";
+import { useSearchParams } from 'next/navigation';
 import {oauth_config} from '../lib/auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 // Login page with login button that is hooked up to Google's oauth authentication
 function Login() {
+  const searchParams = useSearchParams();
   const handleGoogleLogin = () => {
+    const redirectUrl = searchParams.get('redirect');
+    if (redirectUrl) {
+      sessionStorage.setItem('postLoginRedirect', redirectUrl);
+    }
+
     const params = new URLSearchParams({
       client_id: oauth_config.clientId,
       redirect_uri: oauth_config.redirectUri,
