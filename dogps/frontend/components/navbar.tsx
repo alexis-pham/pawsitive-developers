@@ -47,7 +47,7 @@ function Navbar() {
         <a href="/dog-map">Dog Map</a>
         <a href="/favorites">Favorites</a>
         <a href="/personal-survey">Personal Survey</a>
-        <a href="/about-us">About Us</a>
+        <a href="/donate">Donate</a>
       </div>
 
       <button className="sign-in" onClick={isLoggedIn ? handleSignOut : handleSignIn}>

@@ -1,0 +1,95 @@
+.donate-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.donate-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #1E152A;
+  margin: 0;
+}
+
+.donate-description {
+  margin-top: 16px;
+  max-width: 640px;
+  line-height: 1.6;
+  color: #4a4a4a;
+  font-size: 16px;
+}
+
+.donate-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.donate-card {
+  border: 2px solid rgba(0, 99, 93, 0.25);
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  transition: border-color 0.2s;
+}
+
+.donate-card:hover {
+  border-color: #00635D;
+}
+
+.donate-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.donate-card-tagline {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #00635D;
+  margin: 0;
+}
+
+.donate-card-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1E152A;
+  margin: 0;
+}
+
+.donate-card-description {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #4a4a4a;
+}
+
+.donate-card-btn {
+  display: inline-block;
+  padding: 11px 20px;
+  background: #00635D;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
+  align-self: flex-start;
+}
+
+.donate-card-btn:hover {
+  background: #004f4a;
+}
+
+@media (max-width: 768px) {
+  .donate-grid {
+    grid-template-columns: 1fr;
+  }
+}
