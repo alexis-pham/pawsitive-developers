@@ -172,10 +172,16 @@ export default function PersonalSurveyPage() {
   // ── On mount: read localStorage → fetch survey ───────────────────────────
   useEffect(() => {
     const raw = localStorage.getItem("user");
-    if (!raw) { router.push("/"); return; }
+    if (!raw) {
+      window.location.href = "/login?redirect=/personal-survey";
+      return;
+    }
     const user = JSON.parse(raw);
     const email = user?.email;
-    if (!email) { router.push("/"); return; }
+    if (!email) {
+      window.location.href = "/login?redirect=/personal-survey";
+      return;
+    }
     setUserEmail(email);
 
     (async () => {
