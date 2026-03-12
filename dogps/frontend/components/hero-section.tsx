@@ -142,6 +142,10 @@ function HeroSection({ dogs, onSearch }: any) {
                 onChange={(e) => {
                   suppressAutocompleteRef.current = false;
                   setInput(e.target.value);
+                  if (!e.target.value) {
+                    setCity("");
+                    setState("");
+                  }
                 }}
                 onFocus={() => {
                   if (input.trim() && suggestions.length) setIsOpen(true);
